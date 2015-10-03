@@ -1,19 +1,15 @@
 console.log("game.js loaded");
 
+var ball
+
 function init() {
     stage = new PIXI.Stage(0x66FF99);
     renderer = PIXI.autoDetectRenderer(
       900,
       768,
       { view: document.getElementById("game-canvas") }
+      ,true  //antialiasing set to true
     );
-
-    /*background obj
-    var bgTexture = PIXI.Texture.fromImage("../images/bg/bg.png");
-    bg = new PIXI.Sprite(bgTexture);
-    bg.position.x = 0;
-    bg.position.y = 0;
-    stage.addChild(bg);*/
 
 
     //I create some brick...
@@ -38,10 +34,21 @@ function init() {
         deltaX += 45;
     }
 
+    ball = new PIXI.Graphics();
+    ball.lineStyle(2, 0xFF9933, 1);
+    ball.beginFill(0xFF9933);
+    ball.drawCircle(100, 700, 28);  //x , y , radius
+    stage.addChild(ball);
+
     requestAnimationFrame(update);
 }
 
 function update() {
+
+    
+
+    ball.position.x +=0.8;
+    ball.position.y -= 0.8;
 
     renderer.render(stage);
 
