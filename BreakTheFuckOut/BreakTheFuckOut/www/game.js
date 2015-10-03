@@ -1,4 +1,5 @@
-var ball
+var ball;
+var pad;
 
 function init() {
     console.log("game.js loaded");
@@ -62,6 +63,12 @@ function init() {
     ball.beginFill(0xFF9933);
     ball.drawCircle(100, 700, 28);  //x , y , radius
     stage.addChild(ball);
+
+    var padTexture = PIXI.Texture.fromImage("../images/pad.png");
+    pad = new PIXI.Sprite(padTexture);
+    pad.position.x = 450;
+    pad.position.y = 745;
+    stage.addChild(pad);
 
     requestAnimationFrame(update);
 }
