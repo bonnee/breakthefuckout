@@ -5,5 +5,11 @@
 }
 
 canvas {
+    border-style: solid;
+    border-color: gray;
+    border-left-width: 45px;
+    border-right-width: 45px;
+    border-top-width: 45px;
+    border-bottom-width:0;
     background-color: #222222;
 }
