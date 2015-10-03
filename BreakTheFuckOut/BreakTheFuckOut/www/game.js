@@ -1,3 +1,5 @@
+var ball
+
 function init() {
     console.log("game.js loaded");
     stage = new PIXI.Stage(0x66FF99);
@@ -5,6 +7,7 @@ function init() {
       919,
       768,
       { view: document.getElementById("game-canvas") }
+      ,true  //antialiasing set to true
     );
 
     /*  JSON Test
@@ -19,7 +22,7 @@ function init() {
 
     var deltaX = 46;
     var deltaY = 24;
-    for (var y = 0; y < 6; y++) {
+        for (var y = 0; y < 6; y++) {
         for (var x = 0; x < 20; x++) {
             var wbTexture = PIXI.Texture.fromImage("../images/green.png");
             wb = new PIXI.Sprite(wbTexture);
@@ -30,10 +33,21 @@ function init() {
         }
     }
 
+    ball = new PIXI.Graphics();
+    ball.lineStyle(2, 0xFF9933, 1);
+    ball.beginFill(0xFF9933);
+    ball.drawCircle(100, 700, 28);  //x , y , radius
+    stage.addChild(ball);
+
     requestAnimationFrame(update);
 }
 
 function update() {
+
+    
+
+    ball.position.x +=0.8;
+    ball.position.y -= 0.8;
 
     renderer.render(stage);
 

@@ -77,7 +77,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="images\bg\bg.png" />
-    <Content Include="images\whiteBrick.png" />
     <Content Include="Web.config" />
     <Content Include="www\game.js" />
     <Content Include="www\index.html" />
