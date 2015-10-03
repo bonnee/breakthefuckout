@@ -1,5 +1,14 @@
 var ball;
 var pad;
+var AKey = keyboard(65);
+var DKey = keyboard(68);
+
+var movePadDefault = 10;
+var movePadIncreaser = 1.2;  //set the pixel increase every time the pad is moving. giving the pad acceleration while key that move pad is pressed
+var movePad = movePadDefault;
+
+var aPressed = false;
+var dPressed = false;
 
 function init() {
     console.log("game.js loaded");
@@ -64,6 +73,7 @@ function init() {
     ball.drawCircle(100, 700, 28);  //x , y , radius
     stage.addChild(ball);
 
+    //create pad
     var padTexture = PIXI.Texture.fromImage("../images/pad.png");
     pad = new PIXI.Sprite(padTexture);
     pad.position.x = 450;
@@ -73,12 +83,76 @@ function init() {
     requestAnimationFrame(update);
 }
 
+AKey.press = function () {
+    //key object pressed
+    aPressed = true;
+};
+AKey.release = function () {
+    //key object released
+    aPressed = false;
+    movePad = movePadDefault;
+};
+
+DKey.press = function () {
+    //key object pressed
+    dPressed = true;
+};
+DKey.release = function () {
+    //key object released
+    dPressed = false;
+    movePad = movePadDefault;
+};
+
+function keyboard(keyCode) {
+    var key = {};
+    key.code = keyCode;
+    key.isDown = false;
+    key.isUp = true;
+    key.press = undefined;
+    key.release = undefined;
+    //The `downHandler`
+    key.downHandler = function (event) {
+        if (event.keyCode === key.code) {
+            if (key.isUp && key.press) key.press();
+            key.isDown = true;
+            key.isUp = false;
+        }
+        event.preventDefault();
+    };
+
+    //The `upHandler`
+    key.upHandler = function (event) {
+        if (event.keyCode === key.code) {
+            if (key.isDown && key.release) key.release();
+            key.isDown = false;
+            key.isUp = true;
+        }
+        event.preventDefault();
+    };
+
+    //Attach event listeners
+    window.addEventListener(
+      "keydown", key.downHandler.bind(key), false
+    );
+    window.addEventListener(
+      "keyup", key.upHandler.bind(key), false
+    );
+    return key;
+}
+
 function update() {
 
-    
-
-    ball.position.x +=0.8;
+    ball.position.x += 0.8;
     ball.position.y -= 0.8;
+
+    if (aPressed && pad.position.x + movePad > 0) {
+        pad.position.x -= movePad;
+        movePad += movePadIncreaser;
+    }
+    if (dPressed && pad.position.x + movePad < 919) {
+        pad.position.x += movePad;
+        movePad += movePadIncreaser;
+    }
 
     renderer.render(stage);
 
