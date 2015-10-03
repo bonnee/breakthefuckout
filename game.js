@@ -1,41 +1,33 @@
-console.log("game.js loaded");
-
 function init() {
+    console.log("game.js loaded");
     stage = new PIXI.Stage(0x66FF99);
     renderer = PIXI.autoDetectRenderer(
-      900,
+      919,
       768,
       { view: document.getElementById("game-canvas") }
     );
 
-    /*background obj
-    var bgTexture = PIXI.Texture.fromImage("../images/bg/bg.png");
-    bg = new PIXI.Sprite(bgTexture);
-    bg.position.x = 0;
-    bg.position.y = 0;
-    stage.addChild(bg);*/
+    /*  JSON Test
+    var bricks = '{ "1" : [' +
+'{ "x":"0" , "y":"400" color: "indigo" },' +
+'{ "x":"45" , "y":"400" color: "indigo" },' +
+'{ "x":"90" , "y":"400" color: "indigo" } ]}';*/
 
 
     //I create some brick...
-    var deltaX = 45;
-    for (var x = 1; x <= 12; x++) {
-        var deltaY = 45;
-        for (var y = 0; y < 6; y++) {
+    //var obj = JSON.parse(bricks);
 
-            if (x % 2 === 0)
-                var wbTexture = PIXI.Texture.fromImage("../images/red.png");
-            else
-                var wbTexture = PIXI.Texture.fromImage("../images/blue.png");
-
+    var deltaX = 46;
+    var deltaY = 24;
+    for (var y = 0; y < 6; y++) {
+        for (var x = 0; x < 20; x++) {
+            var wbTexture = PIXI.Texture.fromImage("../images/green.png");
             wb = new PIXI.Sprite(wbTexture);
-            wb.position.x = x * 45 + deltaX;
-            wb.position.y = y * 23 + deltaY;
-
+            wb.position.x = x * deltaX;
+            console.log(y * deltaY);
+            wb.position.y =  y * deltaY + 100;
             stage.addChild(wb);
-
-            deltaY += 45;
         }
-        deltaX += 45;
     }
 
     requestAnimationFrame(update);
