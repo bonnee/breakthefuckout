@@ -1,7 +1,10 @@
 var ball;
+var ballSpdX = 4;
+var ballSpdY = -4;
 var pad;
 var AKey = keyboard(65);
 var DKey = keyboard(68);
+var running = true;
 
 var movePadDefault = 10;
 var movePadIncreaser = 1.2;  //set the pixel increase every time the pad is moving. giving the pad acceleration while key that move pad is pressed
@@ -73,7 +76,7 @@ function init() {
     var ballTexture = PIXI.Texture.fromImage("../images/ball.png");
     ball = new PIXI.Sprite(ballTexture);
     ball.position.x = width / 2;
-    ball.position.y = height - 23;
+    ball.position.y = height / 2;
     stage.addChild(ball);
 
     //create pad
@@ -145,28 +148,47 @@ function keyboard(keyCode) {
 
 function update() {
 
-    ball.position.x += 2;
-    ball.position.y -= 2;
+    CheckCollisions();
 
     if (aPressed) {
-        if (pad.position.x - movePad >= 0) {
+        if (pad.position.x - movePad > 0) {
             pad.position.x -= movePad;
             movePad += movePadIncreaser;
         } else
             pad.position.x = 0;
     }
     if (dPressed) {
-        if (pad.position.x + movePad <= width - 45) {
+        if (pad.position.x + movePad < width - pad.width) {
             pad.position.x += movePad;
             movePad += movePadIncreaser;
         }
         else
-            pad.position.x = width - 45;
+            pad.position.x = width - pad.width;
     }
 
     renderer.render(stage);
+    if (running)
+        requestAnimationFrame(update);
+}
 
-    requestAnimationFrame(update);
+function CheckCollisions() {
+
+    if (ballSpdY > 0 && ball.position.y + ball.height >= pad.position.y && (ball.position.x + ball.width > pad.position.x && ball.position.x < pad.position.x + pad.width))
+        ballSpdY = -ballSpdY;
+
+    if ((ball.position.x + ballSpdX) > 0 && (ball.position.x + ballSpdX) < (width - ball.width)) {
+        ball.position.x += ballSpdX;
+    }
+    else {
+        ballSpdX = -ballSpdX;
+    }
+    if (ball.position.y + ballSpdY > 0)
+        ball.position.y += ballSpdY;
+    else
+        ballSpdY = -ballSpdY;
+
+    if (ball.position.y + ballSpdY >= height - ball.height)
+        running = false;
 }
 
 function refr() {
