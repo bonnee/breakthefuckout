@@ -17,7 +17,7 @@ function init() {
       919,
       768,
       { view: document.getElementById("game-canvas") }
-      ,true  //antialiasing set to true
+      , true  //antialiasing set to true
     );
 
     /*  JSON Test
@@ -32,45 +32,46 @@ function init() {
 
     var deltaX = 46;
     var deltaY = 24;
-        for (var y = 0; y < 7; y++) {
-            for (var x = 0; x < 20; x++) {
-                var color;
-                switch (y) {
-                    case 0:
-                        color = "../images/violet.png";
-                        break;
-                    case 1:
-                        color = "../images/indigo.png";
-                        break;
-                    case 2:
-                        color = "../images/blue.png";
-                        break;
-                    case 3:
-                        color = "../images/green.png";
-                        break;
-                    case 4:
-                        color = "../images/yellow.png";
-                        break;
-                    case 5:
-                        color = "../images/orange.png";
-                        break;
-                    case 6:
-                        color = "../images/red.png";
-                        break;
-                }
+    for (var y = 0; y < 7; y++) {
+        for (var x = 0; x < 20; x++) {
+            var color;
+            switch (y) {
+                case 0:
+                    color = "../images/violet.png";
+                    break;
+                case 1:
+                    color = "../images/indigo.png";
+                    break;
+                case 2:
+                    color = "../images/blue.png";
+                    break;
+                case 3:
+                    color = "../images/green.png";
+                    break;
+                case 4:
+                    color = "../images/yellow.png";
+                    break;
+                case 5:
+                    color = "../images/orange.png";
+                    break;
+                case 6:
+                    color = "../images/red.png";
+                    break;
+            }
             var wbTexture = PIXI.Texture.fromImage(color);
             wb = new PIXI.Sprite(wbTexture);
             wb.position.x = x * deltaX;
             console.log(y * deltaY);
-            wb.position.y =  y * deltaY + 100;
+            wb.position.y = y * deltaY + 100;
             stage.addChild(wb);
         }
     }
 
-    ball = new PIXI.Graphics();
-    ball.lineStyle(2, 0xFF9933, 1);
-    ball.beginFill(0xFF9933);
-    ball.drawCircle(100, 700, 28);  //x , y , radius
+
+    var ballTexture = PIXI.Texture.fromImage("../images/ball.png");
+    ball = new PIXI.Sprite(ballTexture);
+    ball.position.x = 450;
+    ball.position.y = 745;
     stage.addChild(ball);
 
     //create pad
@@ -142,8 +143,8 @@ function keyboard(keyCode) {
 
 function update() {
 
-    ball.position.x += 0.8;
-    ball.position.y -= 0.8;
+    ball.position.x += 2;
+    ball.position.y -= 2;
 
     if (aPressed && pad.position.x + movePad > 0) {
         pad.position.x -= movePad;
