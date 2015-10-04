@@ -10,12 +10,14 @@ var movePad = movePadDefault;
 var aPressed = false;
 var dPressed = false;
 
+var width = 919, height = 768;
+
 function init() {
     console.log("game.js loaded");
     stage = new PIXI.Stage(0x66FF99);
     renderer = PIXI.autoDetectRenderer(
-      919,
-      768,
+      width,
+      height,
       { view: document.getElementById("game-canvas") }
       , true  //antialiasing set to true
     );
@@ -70,15 +72,15 @@ function init() {
 
     var ballTexture = PIXI.Texture.fromImage("../images/ball.png");
     ball = new PIXI.Sprite(ballTexture);
-    ball.position.x = 450;
-    ball.position.y = 745;
+    ball.position.x = width / 2;
+    ball.position.y = height - 23;
     stage.addChild(ball);
 
     //create pad
     var padTexture = PIXI.Texture.fromImage("../images/pad.png");
     pad = new PIXI.Sprite(padTexture);
-    pad.position.x = 450;
-    pad.position.y = 745;
+    pad.position.x = width / 2;
+    pad.position.y = height - 23;
     stage.addChild(pad);
 
     requestAnimationFrame(update);
@@ -146,13 +148,20 @@ function update() {
     ball.position.x += 2;
     ball.position.y -= 2;
 
-    if (aPressed && pad.position.x + movePad > 0) {
-        pad.position.x -= movePad;
-        movePad += movePadIncreaser;
+    if (aPressed) {
+        if (pad.position.x - movePad >= 0) {
+            pad.position.x -= movePad;
+            movePad += movePadIncreaser;
+        } else
+            pad.position.x = 0;
     }
-    if (dPressed && pad.position.x + movePad < 919) {
-        pad.position.x += movePad;
-        movePad += movePadIncreaser;
+    if (dPressed) {
+        if (pad.position.x + movePad <= width - 45) {
+            pad.position.x += movePad;
+            movePad += movePadIncreaser;
+        }
+        else
+            pad.position.x = width - 45;
     }
 
     renderer.render(stage);
