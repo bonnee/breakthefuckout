@@ -1,5 +1,5 @@
 var ball;
-var ballSpdX = 0;
+var ballSpdX = 4;
 var ballSpdY = -4;
 var pad;
 var AKey = keyboard(65);
@@ -14,17 +14,56 @@ var aPressed = false;
 var dPressed = false;
 
 var width = 919, height = 768;
+var logging = true;
 
 /*  JSON Test  */
 var lev1 = '{"blocks":[' +
 '{"x":"0","y":"400","width":"45","height":"23","color":"red"},' +
 '{"x":"46","y":"400","width":"45","height":"23","color":"red"},' +
-'{"x":"92","y":"400","width":"45","height":"23","color":"red"}]}';
+'{"x":"92","y":"400","width":"45","height":"23","color":"red"},' +
+'{"x":"138","y":"400","width":"45","height":"23","color":"red"},' +
+'{"x":"184","y":"400","width":"45","height":"23","color":"red"},' +
+'{"x":"230","y":"400","width":"45","height":"23","color":"red"},' +
+'{"x":"276","y":"400","width":"45","height":"23","color":"red"},' +
+'{"x":"322","y":"400","width":"45","height":"23","color":"red"},' +
+'{"x":"368","y":"400","width":"45","height":"23","color":"red"},' +
+'{"x":"414","y":"400","width":"45","height":"23","color":"red"},' +
+'{"x":"460","y":"400","width":"45","height":"23","color":"red"},' +
+'{"x":"506","y":"400","width":"45","height":"23","color":"red"},' +
+'{"x":"552","y":"400","width":"45","height":"23","color":"red"},' +
+'{"x":"598","y":"400","width":"45","height":"23","color":"red"},' +
+'{"x":"644","y":"400","width":"45","height":"23","color":"red"},' +
+'{"x":"690","y":"400","width":"45","height":"23","color":"red"},' +
+'{"x":"736","y":"400","width":"45","height":"23","color":"red"},' +
+'{"x":"782","y":"400","width":"45","height":"23","color":"red"},' +
+'{"x":"828","y":"400","width":"45","height":"23","color":"red"},' +
+'{"x":"874","y":"400","width":"45","height":"23","color":"red"},' +
+'{"x":"0","y":"376","width":"45","height":"23","color":"orange"},' +
+'{"x":"46","y":"376","width":"45","height":"23","color":"orange"},' +
+'{"x":"92","y":"376","width":"45","height":"23","color":"orange"},' +
+'{"x":"138","y":"376","width":"45","height":"23","color":"orange"},' +
+'{"x":"184","y":"376","width":"45","height":"23","color":"orange"},' +
+'{"x":"230","y":"376","width":"45","height":"23","color":"orange"},' +
+'{"x":"276","y":"376","width":"45","height":"23","color":"orange"},' +
+'{"x":"322","y":"376","width":"45","height":"23","color":"orange"},' +
+'{"x":"368","y":"376","width":"45","height":"23","color":"orange"},' +
+'{"x":"414","y":"376","width":"45","height":"23","color":"orange"},' +
+'{"x":"460","y":"376","width":"45","height":"23","color":"orange"},' +
+'{"x":"506","y":"376","width":"45","height":"23","color":"orange"},' +
+'{"x":"552","y":"376","width":"45","height":"23","color":"orange"},' +
+'{"x":"598","y":"376","width":"45","height":"23","color":"orange"},' +
+'{"x":"644","y":"376","width":"45","height":"23","color":"orange"},' +
+'{"x":"690","y":"376","width":"45","height":"23","color":"orange"},' +
+'{"x":"736","y":"376","width":"45","height":"23","color":"orange"},' +
+'{"x":"782","y":"376","width":"45","height":"23","color":"orange"},' +
+'{"x":"828","y":"376","width":"45","height":"23","color":"orange"},' +
+'{"x":"874","y":"376","width":"45","height":"23","color":"orange"}]}';
 
 var bricks;
 
 function init() {
-    console.log("game.js loaded");
+    if (logging)
+        console.log("game.js loaded");
     stage = new PIXI.Stage(0x66FF99);
     renderer = PIXI.autoDetectRenderer(
       width,
@@ -83,18 +122,18 @@ for (var y = 0; y < 7; y++) {
 }*/
 
 
-var ballTexture = PIXI.Texture.fromImage("../images/ball.png");
-ball = new PIXI.Sprite(ballTexture);
-ball.position.x = 10;//width / 2;
-ball.position.y = 700//height / 2;
-stage.addChild(ball);
-
 //create pad
 var padTexture = PIXI.Texture.fromImage("../images/pad.png");
 pad = new PIXI.Sprite(padTexture);
-pad.position.x = width / 2;
+pad.position.x = width / 2 - 11.5;
 pad.position.y = height - 23;
 stage.addChild(pad);
+
+var ballTexture = PIXI.Texture.fromImage("../images/ball.png");
+ball = new PIXI.Sprite(ballTexture);
+ball.position.x = width / 2 - 11.5;
+ball.position.y = height - 46;
+stage.addChild(ball);
 
 requestAnimationFrame(update);
 }
@@ -132,6 +171,8 @@ function keyboard(keyCode) {
             if (key.isUp && key.press) key.press();
             key.isDown = true;
             key.isUp = false;
+            if (logging)
+                console.log(key.code + " pressed");
         }
         event.preventDefault();
     };
@@ -184,30 +225,42 @@ function update() {
 function CheckCollisions() {
 
     if (ballSpdY > 0 && ball.position.y + ball.height >= pad.position.y && (ball.position.x + ball.width > pad.position.x && ball.position.x < pad.position.x + pad.width))
+    {
         ballSpdY = -ballSpdY;
+        if (logging)
+            console.log("Collision with pad");
+    }
 
     if ((ball.position.x + ballSpdX) > 0 && (ball.position.x + ballSpdX) < (width - ball.width)) {
         ball.position.x += ballSpdX;
     }
     else {
         ballSpdX = -ballSpdX;
+        if (logging)
+            console.log("Collision with bounds");
     }
     if (ball.position.y + ballSpdY > 0)
         ball.position.y += ballSpdY;
-    else
+
+    else {
         ballSpdY = -ballSpdY;
+        if (logging)
+            console.log("Collision with bounds");
+    }
 
     if (ball.position.y + ballSpdY >= height - ball.height) {
         ball.position.y = height - ball.height;
         running = false;
+        if (logging)
+            console.log("Game Over");
     }
 
     var i, b, l;
     for (i = 0, l = bricks.blocks.length; i < l; i++) {
         b = bricks.blocks[i];
-        console.log(b.height);
         if ((ball.position.y <= b.y + b.height && ball.position.y + ball.height >= b.y) && (ball.position.x <= b.x + b.width && ball.position.x + ball.width >= b.x));
-            console.log("Collision with block " + i);
+        //if (logging)
+            //console.log("Collision with block " + i);
     }
 
     function refr() {
