@@ -1,5 +1,5 @@
 var ball;
-var ballSpdX = 4;
+var ballSpdX = 0;
 var ballSpdY = -4;
 var pad;
 var AKey = keyboard(65);
@@ -15,6 +15,14 @@ var dPressed = false;
 
 var width = 919, height = 768;
 
+/*  JSON Test  */
+var lev1 = '{"blocks":[' +
+'{"x":"0","y":"400","width":"45","height":"23","color":"red"},' +
+'{"x":"46","y":"400","width":"45","height":"23","color":"red"},' +
+'{"x":"92","y":"400","width":"45","height":"23","color":"red"}]}';
+
+var bricks;
+
 function init() {
     console.log("game.js loaded");
     stage = new PIXI.Stage(0x66FF99);
@@ -24,69 +32,71 @@ function init() {
       { view: document.getElementById("game-canvas") }
       , true  //antialiasing set to true
     );
+    bricks=JSON.parse(lev1);
 
-    /*  JSON Test
-    var bricks = '{ "1" : [' +
-'{ "x":"0" , "y":"400" color: "indigo" },' +
-'{ "x":"45" , "y":"400" color: "indigo" },' +
-'{ "x":"90" , "y":"400" color: "indigo" } ]}';*/
-
-
-    //I create some brick...
-    //var obj = JSON.parse(bricks);
-
-    var deltaX = 46;
-    var deltaY = 24;
-    for (var y = 0; y < 7; y++) {
-        for (var x = 0; x < 20; x++) {
-            var color;
-            switch (y) {
-                case 0:
-                    color = "../images/violet.png";
-                    break;
-                case 1:
-                    color = "../images/indigo.png";
-                    break;
-                case 2:
-                    color = "../images/blue.png";
-                    break;
-                case 3:
-                    color = "../images/green.png";
-                    break;
-                case 4:
-                    color = "../images/yellow.png";
-                    break;
-                case 5:
-                    color = "../images/orange.png";
-                    break;
-                case 6:
-                    color = "../images/red.png";
-                    break;
-            }
-            var wbTexture = PIXI.Texture.fromImage(color);
-            wb = new PIXI.Sprite(wbTexture);
-            wb.position.x = x * deltaX;
-            console.log(y * deltaY);
-            wb.position.y = y * deltaY + 100;
-            stage.addChild(wb);
-        }
+    var i,l;
+    for (i = 0, l = bricks.blocks.length; i < l; i++)
+    {
+        var wbTexture = PIXI.Texture.fromImage("../images/" + bricks.blocks[i].color + ".png");
+        wb = new PIXI.Sprite(wbTexture);
+        wb.position.x = bricks.blocks[i].x;
+        wb.position.y = bricks.blocks[i].y;
+        stage.addChild(wb);
     }
 
 
-    var ballTexture = PIXI.Texture.fromImage("../images/ball.png");
-    ball = new PIXI.Sprite(ballTexture);
-    ball.position.x = width / 2;
-    ball.position.y = height / 2;
-    stage.addChild(ball);
+/*var deltaX = 46;
+var deltaY = 24;
+for (var y = 0; y < 7; y++) {
+    for (var x = 0; x < 20; x++) {
+        var color;
+        switch (y) {
+            case 0:
+                color = "../images/violet.png";
+                break;
+            case 1:
+                color = "../images/indigo.png";
+                break;
+            case 2:
+                color = "../images/blue.png";
+                break;
+            case 3:
+                color = "../images/green.png";
+                break;
+            case 4:
+                color = "../images/yellow.png";
+                break;
+            case 5:
+                color = "../images/orange.png";
+                break;
+            case 6:
+                color = "../images/red.png";
+                break;
+        }
+        var wbTexture = PIXI.Texture.fromImage(color);
+        wb = new PIXI.Sprite(wbTexture);
+        wb.position.x = x * deltaX;
+        console.log(y * deltaY);
+        wb.position.y = y * deltaY + 100;
+        stage.addChild(wb);
+    }
+}*/
 
-    //create pad
-    var padTexture = PIXI.Texture.fromImage("../images/pad.png");
-    pad = new PIXI.Sprite(padTexture);
-    pad.position.x = width / 2;
-    pad.position.y = height - 23;
-    stage.addChild(pad);
 
-    requestAnimationFrame(update);
+var ballTexture = PIXI.Texture.fromImage("../images/ball.png");
+ball = new PIXI.Sprite(ballTexture);
+ball.position.x = 10;//width / 2;
+ball.position.y = 700//height / 2;
+stage.addChild(ball);
+
+//create pad
+var padTexture = PIXI.Texture.fromImage("../images/pad.png");
+pad = new PIXI.Sprite(padTexture);
+pad.position.x = width / 2;
+pad.position.y = height - 23;
+stage.addChild(pad);
+
+requestAnimationFrame(update);
 }
 
 AKey.press = function () {
@@ -187,10 +197,20 @@ function CheckCollisions() {
     else
         ballSpdY = -ballSpdY;
 
-    if (ball.position.y + ballSpdY >= height - ball.height)
+    if (ball.position.y + ballSpdY >= height - ball.height) {
+        ball.position.y = height - ball.height;
         running = false;
-}
+    }
 
-function refr() {
-    renderer.render(stage);
+    var i, b, l;
+    for (i = 0, l = bricks.blocks.length; i < l; i++) {
+        b = bricks.blocks[i];
+        console.log(b.height);
+        if ((ball.position.y <= b.y + b.height && ball.position.y + ball.height >= b.y) && (ball.position.x <= b.x + b.width && ball.position.x + ball.width >= b.x));
+            console.log("Collision with block " + i);
+    }
+
+    function refr() {
+        renderer.render(stage);
+    }
 }
