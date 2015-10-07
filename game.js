@@ -1,6 +1,6 @@
 var stage;
 var ball;
-var ballSpdX = 5;
+var ballSpdX = 4;
 var ballSpdY = -5;
 var pad;
 var AKey = keyboard(65);
@@ -20,10 +20,10 @@ var logging = true;
 
 /*  JSON Test  */
 var lev1 = '{"blocks":[' +
-'{"x":"0","y":"400","width":"45","height":"23","color":"red", "sprite":""},' +
-'{"x":"46","y":"400","width":"45","height":"23","color":"red", "sprite":""},' +
-'{"x":"92","y":"400","width":"45","height":"23","color":"red", "sprite":""},' +
-'{"x":"138","y":"400","width":"45","height":"23","color":"red", "sprite":""}]}';
+'{"x":"0","y":"400","width":"45","height":"23","color":"red","score":"100","sprite":""},' +
+'{"x":"46","y":"400","width":"45","height":"23","color":"red","score":"100","sprite":""},' +
+'{"x":"92","y":"400","width":"45","height":"23","color":"red","score":"100","sprite":""},' +
+'{"x":"138","y":"400","width":"45","height":"23","color":"red","score":"100","sprite":""}]}';
 //var lev1 = '{"blocks":[' +
 //'{"x":"0","y":"400","width":"45","height":"23","color":"red"},' +
 //'{"x":"46","y":"400","width":"45","height":"23","color":"red"},' +
@@ -87,6 +87,7 @@ function init() {
         b.y = parseInt(b.y);
         b.width = parseInt(b.width);
         b.height = parseInt(b.height);
+        b.score = parseInt(b.score);
         var wbTexture = PIXI.Texture.fromImage("../images/" + bricks.blocks[i].color + ".png");
         wb = new PIXI.Sprite(wbTexture);
         wb.position.x = bricks.blocks[i].x;
@@ -249,7 +250,7 @@ function CheckCollisions() {
         if ((ball.position.y <= b.y + b.height && ball.position.y + ball.height >= b.y) && (ball.position.x <= b.x + b.width && ball.position.x + ball.width >= b.x)) {
             stage.removeChild(b.sprite);
             bricks.blocks.splice(i, 1);
-            score += 100;
+            score += b.score;
             collisionY = true;
             if (logging)
                 console.log("Collision with block " + i);
@@ -273,6 +274,8 @@ function CheckCollisions() {
         if (logging)
             console.log("Game Over");
     }
+    if (bricks.blocks.length == 0)
+        running = false;
     
     if (collisionX)
         ballSpdX = -ballSpdX;
