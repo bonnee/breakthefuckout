@@ -1,12 +1,16 @@
 /*
-suggestion: mouse / keyboard control pad settings.
-score managing
+TODO: 
+1. Mouse / keyboard control pad settings;
+2. Score managing:
+3. Initial "Press [button] to start" splash screen;
+4. Level management via JSON files;
+5. Difficulty settings (ball speed);
 */
 
 
 var stage;
 var ball;
-var ballSpdX = 0;  //4
+var ballSpdX = 4;
 var ballSpdY = -5;
 var pad;
 var AKey = keyboard(65);
@@ -61,12 +65,12 @@ var lev1 = '{"blocks":[' +
 '{"x":"506","y":"376","width":"45","height":"23","color":"orange","score":"100","sprite":""},' +
 '{"x":"552","y":"376","width":"45","height":"23","color":"orange","score":"100","sprite":""},' +
 '{"x":"598","y":"376","width":"45","height":"23","color":"orange","score":"100","sprite":""},' +
-    '{"x":"644","y":"376","width":"45","height":"23","color":"orange","score":"100","sprite":""},' +
-    '{"x":"690","y":"376","width":"45","height":"23","color":"orange","score":"100","sprite":""},' +
-    '{"x":"736","y":"376","width":"45","height":"23","color":"orange","score":"100","sprite":""},' +
-    '{"x":"782","y":"376","width":"45","height":"23","color":"orange","score":"100","sprite":""},' +
-        '{"x":"828","y":"376","width":"45","height":"23","color":"orange","score":"100","sprite":""},' +
-        '{"x":"874","y":"376","width":"45","height":"23","color":"orange","score":"100","sprite":""}]}';
+'{"x":"644","y":"376","width":"45","height":"23","color":"orange","score":"100","sprite":""},' +
+'{"x":"690","y":"376","width":"45","height":"23","color":"orange","score":"100","sprite":""},' +
+'{"x":"736","y":"376","width":"45","height":"23","color":"orange","score":"100","sprite":""},' +
+'{"x":"782","y":"376","width":"45","height":"23","color":"orange","score":"100","sprite":""},' +
+'{"x":"828","y":"376","width":"45","height":"23","color":"orange","score":"100","sprite":""},' +
+'{"x":"874","y":"376","width":"45","height":"23","color":"orange","score":"100","sprite":""}]}';
 
 
 var bricks;
@@ -82,7 +86,7 @@ function init() {
       , true  //antialiasing set to true
     );
     bricks = JSON.parse(lev1);
-    
+
     var i, l;
     for (i = 0, l = bricks.blocks.length; i < l; i++) {
         var b = bricks.blocks[i];
@@ -253,7 +257,7 @@ function CheckCollisions() {
             console.log("Collision with pad");
 
 
-        
+
         //deltaY = DyBall + Math.Abs((((pad0.Location.Y + (pad0.HeightBlock / 2))) - ((ball.Y + (ball.HeightBlock / 2)))) / 10);
         //DyBall = (deltaY);
         //DxBall = -DxBall;
@@ -291,7 +295,7 @@ function CheckCollisions() {
     }
     if (bricks.blocks.length == 0)
         running = false;
-    
+
     if (collisionX)
         ballSpdX = -ballSpdX;
     if (collisionY)
