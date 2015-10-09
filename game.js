@@ -13,6 +13,7 @@ var ball;
 var ballSpdX = 4;
 var ballSpdY = -5;
 var pad;
+var bricks;
 var AKey = keyboard(65);
 var DKey = keyboard(68);
 var running = true;
@@ -29,52 +30,6 @@ var dPressed = false;
 var width = 919, height = 768;
 var logging = true;
 
-/*  JSON Test  */
-var lev1 = '{"blocks":[' +
-'{"x":"0","y":"400","width":"45","height":"23","color":"red","score":"100","sprite":""},' +
-'{"x":"46","y":"400","width":"45","height":"23","color":"red","score":"100","sprite":""},' +
-'{"x":"92","y":"400","width":"45","height":"23","color":"red","score":"100","sprite":""},' +
-'{"x":"138","y":"400","width":"45","height":"23","color":"red","score":"100","sprite":""},' +
-'{"x":"184","y":"400","width":"45","height":"23","color":"red","score":"100","sprite":""},' +
-'{"x":"230","y":"400","width":"45","height":"23","color":"red","score":"100","sprite":""},' +
-'{"x":"276","y":"400","width":"45","height":"23","color":"red","score":"100","sprite":""},' +
-'{"x":"322","y":"400","width":"45","height":"23","color":"red","score":"100","sprite":""},' +
-'{"x":"368","y":"400","width":"45","height":"23","color":"red","score":"100","sprite":""},' +
-'{"x":"414","y":"400","width":"45","height":"23","color":"red","score":"100","sprite":""},' +
-'{"x":"460","y":"400","width":"45","height":"23","color":"red","score":"100","sprite":""},' +
-'{"x":"506","y":"400","width":"45","height":"23","color":"red","score":"100","sprite":""},' +
-'{"x":"552","y":"400","width":"45","height":"23","color":"red","score":"100","sprite":""},' +
-'{"x":"598","y":"400","width":"45","height":"23","color":"red","score":"100","sprite":""},' +
-'{"x":"644","y":"400","width":"45","height":"23","color":"red","score":"100","sprite":""},' +
-'{"x":"690","y":"400","width":"45","height":"23","color":"red","score":"100","sprite":""},' +
-'{"x":"736","y":"400","width":"45","height":"23","color":"red","score":"100","sprite":""},' +
-'{"x":"782","y":"400","width":"45","height":"23","color":"red","score":"100","sprite":""},' +
-'{"x":"828","y":"400","width":"45","height":"23","color":"red","score":"100","sprite":""},' +
-'{"x":"874","y":"400","width":"45","height":"23","color":"red","score":"100","sprite":""},' +
-'{"x":"0","y":"376","width":"45","height":"23","color":"orange","score":"100","sprite":""},' +
-'{"x":"46","y":"376","width":"45","height":"23","color":"orange","score":"100","sprite":""},' +
-'{"x":"92","y":"376","width":"45","height":"23","color":"orange","score":"100","sprite":""},' +
-'{"x":"138","y":"376","width":"45","height":"23","color":"orange","score":"100","sprite":""},' +
-'{"x":"184","y":"376","width":"45","height":"23","color":"orange","score":"100","sprite":""},' +
-'{"x":"230","y":"376","width":"45","height":"23","color":"orange","score":"100","sprite":""},' +
-'{"x":"276","y":"376","width":"45","height":"23","color":"orange","score":"100","sprite":""},' +
-'{"x":"322","y":"376","width":"45","height":"23","color":"orange","score":"100","sprite":""},' +
-'{"x":"368","y":"376","width":"45","height":"23","color":"orange","score":"100","sprite":""},' +
-'{"x":"414","y":"376","width":"45","height":"23","color":"orange","score":"100","sprite":""},' +
-'{"x":"460","y":"376","width":"45","height":"23","color":"orange","score":"100","sprite":""},' +
-'{"x":"506","y":"376","width":"45","height":"23","color":"orange","score":"100","sprite":""},' +
-'{"x":"552","y":"376","width":"45","height":"23","color":"orange","score":"100","sprite":""},' +
-'{"x":"598","y":"376","width":"45","height":"23","color":"orange","score":"100","sprite":""},' +
-'{"x":"644","y":"376","width":"45","height":"23","color":"orange","score":"100","sprite":""},' +
-'{"x":"690","y":"376","width":"45","height":"23","color":"orange","score":"100","sprite":""},' +
-'{"x":"736","y":"376","width":"45","height":"23","color":"orange","score":"100","sprite":""},' +
-'{"x":"782","y":"376","width":"45","height":"23","color":"orange","score":"100","sprite":""},' +
-'{"x":"828","y":"376","width":"45","height":"23","color":"orange","score":"100","sprite":""},' +
-'{"x":"874","y":"376","width":"45","height":"23","color":"orange","score":"100","sprite":""}]}';
-
-
-var bricks;
-
 function init() {
     if (logging)
         console.log("game.js loaded");
@@ -85,7 +40,8 @@ function init() {
       { view: document.getElementById("game-canvas") }
       , true  //antialiasing set to true
     );
-    bricks = JSON.parse(lev1);
+
+    bricks = JSONLoader("levels/1.json");
 
     var i, l;
     for (i = 0, l = bricks.blocks.length; i < l; i++) {
@@ -103,51 +59,14 @@ function init() {
         b.sprite = wb;
     }
 
-
-    /*var deltaX = 46;
-    var deltaY = 24;
-    for (var y = 0; y < 7; y++) {
-        for (var x = 0; x < 20; x++) {
-            var color;
-            switch (y) {
-                case 0:
-                    color = "../images/violet.png";
-                    break;
-                case 1:
-                    color = "../images/indigo.png";
-                    break;
-                case 2:
-                    color = "../images/blue.png";
-                    break;
-                case 3:
-                    color = "../images/green.png";
-                    break;
-                case 4:
-                    color = "../images/yellow.png";
-                    break;
-                case 5:
-                    color = "../images/orange.png";
-                    break;
-                case 6:
-                    color = "../images/red.png";
-                    break;
-            }
-            var wbTexture = PIXI.Texture.fromImage(color);
-            wb = new PIXI.Sprite(wbTexture);
-            wb.position.x = x * deltaX;
-            console.log(y * deltaY);
-            wb.position.y = y * deltaY + 100;
-            stage.addChild(wb);
-        }
-    }*/
-
-
     //create pad
     var padTexture = PIXI.Texture.fromImage("../images/pad.png");
     pad = new PIXI.Sprite(padTexture);
     pad.position.x = width / 2 - 11.5;
     pad.position.y = height - 23;
     stage.addChild(pad);
+
+    //create ball
     var ballTexture = PIXI.Texture.fromImage("../images/ball.png");
     ball = new PIXI.Sprite(ballTexture);
     ball.position.x = width / 2 - 11.5;
@@ -155,6 +74,28 @@ function init() {
     stage.addChild(ball);
 
     requestAnimationFrame(update);
+}
+
+//      Load a JSON file from specified URL
+function JSONLoader(url) {
+    var data;
+    request = new XMLHttpRequest();
+    request.open('GET', url, false);
+
+    request.onload = function() {
+        if (request.status >= 200 && request.status < 400){
+            data = JSON.parse(request.responseText);
+        } else {
+            if (logging)
+                console.log("Error loading bricks placement");
+        }
+    };
+
+    request.onerror = function() {
+    };
+
+    request.send();
+    return data;
 }
 
 AKey.press = function () {
