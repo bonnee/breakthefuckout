@@ -23,48 +23,44 @@ var lev1 = '{"blocks":[' +
 '{"x":"0","y":"400","width":"45","height":"23","color":"red","score":"100","sprite":""},' +
 '{"x":"46","y":"400","width":"45","height":"23","color":"red","score":"100","sprite":""},' +
 '{"x":"92","y":"400","width":"45","height":"23","color":"red","score":"100","sprite":""},' +
-'{"x":"138","y":"400","width":"45","height":"23","color":"red","score":"100","sprite":""}]}';
-//var lev1 = '{"blocks":[' +
-//'{"x":"0","y":"400","width":"45","height":"23","color":"red"},' +
-//'{"x":"46","y":"400","width":"45","height":"23","color":"red"},' +
-//'{"x":"92","y":"400","width":"45","height":"23","color":"red"},' +
-//'{"x":"138","y":"400","width":"45","height":"23","color":"red"},' +
-//'{"x":"184","y":"400","width":"45","height":"23","color":"red"},' +
-//'{"x":"230","y":"400","width":"45","height":"23","color":"red"},' +
-//'{"x":"276","y":"400","width":"45","height":"23","color":"red"},' +
-//'{"x":"322","y":"400","width":"45","height":"23","color":"red"},' +
-//'{"x":"368","y":"400","width":"45","height":"23","color":"red"},' +
-//'{"x":"414","y":"400","width":"45","height":"23","color":"red"},' +
-//'{"x":"460","y":"400","width":"45","height":"23","color":"red"},' +
-//'{"x":"506","y":"400","width":"45","height":"23","color":"red"},' +
-//'{"x":"552","y":"400","width":"45","height":"23","color":"red"},' +
-//'{"x":"598","y":"400","width":"45","height":"23","color":"red"},' +
-//'{"x":"644","y":"400","width":"45","height":"23","color":"red"},' +
-//'{"x":"690","y":"400","width":"45","height":"23","color":"red"},' +
-//'{"x":"736","y":"400","width":"45","height":"23","color":"red"},' +
-//'{"x":"782","y":"400","width":"45","height":"23","color":"red"},' +
-//'{"x":"828","y":"400","width":"45","height":"23","color":"red"},' +
-//'{"x":"874","y":"400","width":"45","height":"23","color":"red"},' +
-//'{"x":"0","y":"376","width":"45","height":"23","color":"orange"},' +
-//'{"x":"46","y":"376","width":"45","height":"23","color":"orange"},' +
-//'{"x":"92","y":"376","width":"45","height":"23","color":"orange"},' +
-//'{"x":"138","y":"376","width":"45","height":"23","color":"orange"},' +
-//'{"x":"184","y":"376","width":"45","height":"23","color":"orange"},' +
-//'{"x":"230","y":"376","width":"45","height":"23","color":"orange"},' +
-//'{"x":"276","y":"376","width":"45","height":"23","color":"orange"},' +
-//'{"x":"322","y":"376","width":"45","height":"23","color":"orange"},' +
-//'{"x":"368","y":"376","width":"45","height":"23","color":"orange"},' +
-//'{"x":"414","y":"376","width":"45","height":"23","color":"orange"},' +
-//'{"x":"460","y":"376","width":"45","height":"23","color":"orange"},' +
-//'{"x":"506","y":"376","width":"45","height":"23","color":"orange"},' +
-//'{"x":"552","y":"376","width":"45","height":"23","color":"orange"},' +
-//'{"x":"598","y":"376","width":"45","height":"23","color":"orange"},' +
-//'{"x":"644","y":"376","width":"45","height":"23","color":"orange"},' +
-//'{"x":"690","y":"376","width":"45","height":"23","color":"orange"},' +
-//'{"x":"736","y":"376","width":"45","height":"23","color":"orange"},' +
-//'{"x":"782","y":"376","width":"45","height":"23","color":"orange"},' +
-//'{"x":"828","y":"376","width":"45","height":"23","color":"orange"},' +
-//'{"x":"874","y":"376","width":"45","height":"23","color":"orange"}]}';
+'{"x":"138","y":"400","width":"45","height":"23","color":"red","score":"100","sprite":""},' +
+'{"x":"184","y":"400","width":"45","height":"23","color":"red","score":"100","sprite":""},' +
+'{"x":"230","y":"400","width":"45","height":"23","color":"red","score":"100","sprite":""},' +
+'{"x":"276","y":"400","width":"45","height":"23","color":"red","score":"100","sprite":""},' +
+'{"x":"322","y":"400","width":"45","height":"23","color":"red","score":"100","sprite":""},' +
+'{"x":"368","y":"400","width":"45","height":"23","color":"red","score":"100","sprite":""},' +
+'{"x":"414","y":"400","width":"45","height":"23","color":"red","score":"100","sprite":""},' +
+'{"x":"460","y":"400","width":"45","height":"23","color":"red","score":"100","sprite":""},' +
+'{"x":"506","y":"400","width":"45","height":"23","color":"red","score":"100","sprite":""},' +
+'{"x":"552","y":"400","width":"45","height":"23","color":"red","score":"100","sprite":""},' +
+'{"x":"598","y":"400","width":"45","height":"23","color":"red","score":"100","sprite":""},' +
+'{"x":"644","y":"400","width":"45","height":"23","color":"red","score":"100","sprite":""},' +
+'{"x":"690","y":"400","width":"45","height":"23","color":"red","score":"100","sprite":""},' +
+'{"x":"736","y":"400","width":"45","height":"23","color":"red","score":"100","sprite":""},' +
+'{"x":"782","y":"400","width":"45","height":"23","color":"red","score":"100","sprite":""},' +
+'{"x":"828","y":"400","width":"45","height":"23","color":"red","score":"100","sprite":""},' +
+'{"x":"874","y":"400","width":"45","height":"23","color":"red","score":"100","sprite":""},' +
+'{"x":"0","y":"376","width":"45","height":"23","color":"orange","score":"100","sprite":""},' +
+'{"x":"46","y":"376","width":"45","height":"23","color":"orange","score":"100","sprite":""},' +
+'{"x":"92","y":"376","width":"45","height":"23","color":"orange","score":"100","sprite":""},' +
+'{"x":"138","y":"376","width":"45","height":"23","color":"orange","score":"100","sprite":""},' +
+'{"x":"184","y":"376","width":"45","height":"23","color":"orange","score":"100","sprite":""},' +
+'{"x":"230","y":"376","width":"45","height":"23","color":"orange","score":"100","sprite":""},' +
+'{"x":"276","y":"376","width":"45","height":"23","color":"orange","score":"100","sprite":""},' +
+'{"x":"322","y":"376","width":"45","height":"23","color":"orange","score":"100","sprite":""},' +
+'{"x":"368","y":"376","width":"45","height":"23","color":"orange","score":"100","sprite":""},' +
+'{"x":"414","y":"376","width":"45","height":"23","color":"orange","score":"100","sprite":""},' +
+'{"x":"460","y":"376","width":"45","height":"23","color":"orange","score":"100","sprite":""},' +
+'{"x":"506","y":"376","width":"45","height":"23","color":"orange","score":"100","sprite":""},' +
+'{"x":"552","y":"376","width":"45","height":"23","color":"orange","score":"100","sprite":""},' +
+'{"x":"598","y":"376","width":"45","height":"23","color":"orange","score":"100","sprite":""},' +
+    '{"x":"644","y":"376","width":"45","height":"23","color":"orange","score":"100","sprite":""},' +
+    '{"x":"690","y":"376","width":"45","height":"23","color":"orange","score":"100","sprite":""},' +
+    '{"x":"736","y":"376","width":"45","height":"23","color":"orange","score":"100","sprite":""},' +
+    '{"x":"782","y":"376","width":"45","height":"23","color":"orange","score":"100","sprite":""},' +
+        '{"x":"828","y":"376","width":"45","height":"23","color":"orange","score":"100","sprite":""},' +
+        '{"x":"874","y":"376","width":"45","height":"23","color":"orange","score":"100","sprite":""}]}';
+
 
 var bricks;
 
