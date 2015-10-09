@@ -1,6 +1,6 @@
 var stage;
 var ball;
-var ballSpdX = 4;
+var ballSpdX = 0;  //4
 var ballSpdY = -5;
 var pad;
 var AKey = keyboard(65);
@@ -242,8 +242,20 @@ function CheckCollisions() {
 
     if (ballSpdY > 0 && ball.position.y + ball.height >= pad.position.y && (ball.position.x + ball.width > pad.position.x && ball.position.x < pad.position.x + pad.width)) {
         collisionY = true;
+
+        ballSpdX = -((pad.position.x + (pad.width / 2)) - (ball.position.x + (ball.width / 2))) / 10;
+        //ballSpdY = -ballSpdY;
+
         if (logging)
             console.log("Collision with pad");
+
+
+        
+        //deltaY = DyBall + Math.Abs((((pad0.Location.Y + (pad0.HeightBlock / 2))) - ((ball.Y + (ball.HeightBlock / 2)))) / 10);
+        //DyBall = (deltaY);
+        //DxBall = -DxBall;
+
+
     }
     for (var i = 0; i < bricks.blocks.length; i++) {
         var b = bricks.blocks[i];
