@@ -7,7 +7,6 @@ TODO:
 5. Difficulty settings (ball speed);
 */
 
-
 var stage;
 var ball;
 var ballSpdX = 4;
@@ -21,14 +20,14 @@ var score = 0;
 var divisorCollision = 5;
 
 var movePadDefault = 10;
-var movePadIncreaser = 1.2;  //set the pixel increase every time the pad is moving. giving the pad acceleration while key that move pad is pressed
+var movePadIncreaser = 1.2;  // set the pixel increase every time the pad is moving. giving the pad acceleration while key that move pad is pressed
 var movePad = movePadDefault;
 
 var aPressed = false;
 var dPressed = false;
 
 var width = 919, height = 768;
-var logging = true;
+var logging = true;     //      Only for debug messages
 
 function init() {
     if (logging)
@@ -38,11 +37,38 @@ function init() {
       width,
       height,
       { view: document.getElementById("game-canvas") }
-      , true  //antialiasing set to true
+      , false  //antialiasing set to true
     );
 
-    bricks = JSONLoader("levels/1.json");
+    LoadObjects();
 
+    requestAnimationFrame(update);
+}
+
+//      Load a JSON file from specified URL
+function JSONLoader(url) {
+    var data;
+    request = new XMLHttpRequest();
+    request.open('GET', url, false);
+
+    request.onload = function () {
+        if (request.status >= 200 && request.status < 400) {
+            data = JSON.parse(request.responseText);
+        } else {
+            if (logging)
+                console.log("Error loading bricks placement");
+        }
+    };
+
+    request.onerror = function () {
+    };
+
+    request.send();
+    return data;
+}
+
+function LoadObjects() {
+    bricks = JSONLoader("levels/1.json");
     var i, l;
     for (i = 0, l = bricks.blocks.length; i < l; i++) {
         var b = bricks.blocks[i];
@@ -72,30 +98,6 @@ function init() {
     ball.position.x = width / 2 - 11.5;
     ball.position.y = height - 46;
     stage.addChild(ball);
-
-    requestAnimationFrame(update);
-}
-
-//      Load a JSON file from specified URL
-function JSONLoader(url) {
-    var data;
-    request = new XMLHttpRequest();
-    request.open('GET', url, false);
-
-    request.onload = function() {
-        if (request.status >= 200 && request.status < 400){
-            data = JSON.parse(request.responseText);
-        } else {
-            if (logging)
-                console.log("Error loading bricks placement");
-        }
-    };
-
-    request.onerror = function() {
-    };
-
-    request.send();
-    return data;
 }
 
 AKey.press = function () {
