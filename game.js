@@ -1,3 +1,9 @@
+/*
+suggestion: mouse / keyboard control pad settings.
+score managing
+*/
+
+
 var stage;
 var ball;
 var ballSpdX = 0;  //4
@@ -7,6 +13,7 @@ var AKey = keyboard(65);
 var DKey = keyboard(68);
 var running = true;
 var score = 0;
+var divisorCollision = 5;
 
 var movePadDefault = 10;
 var movePadIncreaser = 1.2;  //set the pixel increase every time the pad is moving. giving the pad acceleration while key that move pad is pressed
@@ -239,7 +246,7 @@ function CheckCollisions() {
     if (ballSpdY > 0 && ball.position.y + ball.height >= pad.position.y && (ball.position.x + ball.width > pad.position.x && ball.position.x < pad.position.x + pad.width)) {
         collisionY = true;
 
-        ballSpdX = -((pad.position.x + (pad.width / 2)) - (ball.position.x + (ball.width / 2))) / 10;
+        ballSpdX = -((pad.position.x + (pad.width / 2)) - (ball.position.x + (ball.width / 2))) / divisorCollision;  ///////10
         //ballSpdY = -ballSpdY;
 
         if (logging)
