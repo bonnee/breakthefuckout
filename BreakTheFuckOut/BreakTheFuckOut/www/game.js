@@ -37,7 +37,6 @@ function init() {
       width,
       height,
       { view: document.getElementById("game-canvas") }
-      , false  //antialiasing set to true
     );
 
     LoadObjects();
@@ -77,10 +76,10 @@ function LoadObjects() {
         b.width = parseInt(b.width);
         b.height = parseInt(b.height);
         b.score = parseInt(b.score);
-        var wbTexture = PIXI.Texture.fromImage("../images/" + bricks.blocks[i].color + ".png");
+        var wbTexture = PIXI.Texture.fromImage("../images/" + b.color + ".png");
         wb = new PIXI.Sprite(wbTexture);
-        wb.position.x = bricks.blocks[i].x;
-        wb.position.y = bricks.blocks[i].y;
+        wb.position.x = b.x;
+        wb.position.y = b.y;
         stage.addChild(wb);
         b.sprite = wb;
     }
@@ -88,16 +87,16 @@ function LoadObjects() {
     //create pad
     var padTexture = PIXI.Texture.fromImage("../images/pad.png");
     pad = new PIXI.Sprite(padTexture);
-    pad.position.x = width / 2 - 11.5;
-    pad.position.y = height - 23;
     stage.addChild(pad);
+    pad.position.x = width / 2 - pad.width;
+    pad.position.y = height - 23;
 
     //create ball
     var ballTexture = PIXI.Texture.fromImage("../images/ball.png");
     ball = new PIXI.Sprite(ballTexture);
-    ball.position.x = width / 2 - 11.5;
-    ball.position.y = height - 46;
     stage.addChild(ball);
+    ball.position.y = height - 23;
+    ball.position.x = width / 2 - ball.width / 2;
 }
 
 AKey.press = function () {
@@ -193,19 +192,10 @@ function CheckCollisions() {
     if (ballSpdY > 0 && ball.position.y + ball.height >= pad.position.y && (ball.position.x + ball.width > pad.position.x && ball.position.x < pad.position.x + pad.width)) {
         collisionY = true;
 
-        ballSpdX = -((pad.position.x + (pad.width / 2)) - (ball.position.x + (ball.width / 2))) / divisorCollision;  ///////10
-        //ballSpdY = -ballSpdY;
+        ballSpdX = -((pad.position.x + (pad.width / 2)) - (ball.position.x + (ball.width / 2))) / divisorCollision;
 
         if (logging)
             console.log("Collision with pad");
-
-
-
-        //deltaY = DyBall + Math.Abs((((pad0.Location.Y + (pad0.HeightBlock / 2))) - ((ball.Y + (ball.HeightBlock / 2)))) / 10);
-        //DyBall = (deltaY);
-        //DxBall = -DxBall;
-
-
     }
     for (var i = 0; i < bricks.blocks.length; i++) {
         var b = bricks.blocks[i];
@@ -243,8 +233,4 @@ function CheckCollisions() {
         ballSpdX = -ballSpdX;
     if (collisionY)
         ballSpdY = -ballSpdY;
-
-    function refr() {
-        renderer.render(stage);
-    }
 }
