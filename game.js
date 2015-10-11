@@ -13,6 +13,7 @@ var ballSpdX = 4;
 var ballSpdY = -5;
 var pad;
 var bricks;
+var scoreText;
 var AKey = keyboard(65);
 var DKey = keyboard(68);
 var running = true;
@@ -88,7 +89,7 @@ function LoadObjects() {
     var padTexture = PIXI.Texture.fromImage("../images/pad.png");
     pad = new PIXI.Sprite(padTexture);
     stage.addChild(pad);
-    pad.position.x = width / 2 - pad.width;
+    pad.position.x = width / 2 - pad.width / 2;
     pad.position.y = height - 23;
 
     //create ball
@@ -97,6 +98,10 @@ function LoadObjects() {
     stage.addChild(ball);
     ball.position.y = height - 23;
     ball.position.x = width / 2 - ball.width / 2;
+
+    //score text
+    scoreText = new PIXI.Text(score, { font: "25px Arial", fill: "white" });
+    stage.addChild(scoreText);
 }
 
 AKey.press = function () {
@@ -184,6 +189,16 @@ function update() {
     renderer.render(stage);
     if (running)
         requestAnimationFrame(update);
+    else
+        requestAnimationFrame(end);
+}
+
+function end() {
+    var endText = new PIXI.Text("Game Over", { font: "50px Arial", fill: "white" });
+    stage.addChild(endText);
+    endText.x = width / 2 - endText.width / 2;
+    endText.y = height / 2 + 75;
+    renderer.render(stage);
 }
 
 function CheckCollisions() {
@@ -200,9 +215,10 @@ function CheckCollisions() {
     for (var i = 0; i < bricks.blocks.length; i++) {
         var b = bricks.blocks[i];
         if ((ball.position.y <= b.y + b.height && ball.position.y + ball.height >= b.y) && (ball.position.x <= b.x + b.width && ball.position.x + ball.width >= b.x)) {
-            stage.removeChild(b.sprite);
             bricks.blocks.splice(i, 1);
+            stage.removeChild(b.sprite);
             score += b.score;
+            scoreText.setText(score);
             collisionY = true;
             if (logging)
                 console.log("Collision with block " + i);
