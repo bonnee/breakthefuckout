@@ -2,7 +2,7 @@
 TODO: 
 1. Mouse / keyboard control pad settings;
 2. Score managing:
-3. Initial "Press [button] to start" splash screen;
+3. [DONE] Initial "Press [button] to start" splash screen;
 4. Level management via JSON files;
 5. Difficulty settings (ball speed);
 */
@@ -14,8 +14,6 @@ var ballSpdY = -5;
 var pad;
 var bricks;
 var scoreText;
-var AKey = keyboard(65);
-var DKey = keyboard(68);
 var running = true;
 var score = 0;
 var divisorCollision = 5;
@@ -24,8 +22,12 @@ var movePadDefault = 10;
 var movePadIncreaser = 1.2;  // set the pixel increase every time the pad is moving. giving the pad acceleration while key that move pad is pressed
 var movePad = movePadDefault;
 
+var aKey = keyboard(65);
+var dKey = keyboard(68);
+var enterKey = keyboard(13);
 var aPressed = false;
 var dPressed = false;
+var enterPressed = false;
 
 var width = 919, height = 768;
 var logging = true;     //      Only for debug messages
@@ -41,8 +43,7 @@ function init() {
     );
 
     LoadObjects();
-
-    requestAnimationFrame(update);
+    start();
 }
 
 //      Load a JSON file from specified URL
@@ -104,24 +105,33 @@ function LoadObjects() {
     stage.addChild(scoreText);
 }
 
-AKey.press = function () {
+aKey.press = function () {
     //key object pressed
     aPressed = true;
 };
-AKey.release = function () {
+aKey.release = function () {
     //key object released
     aPressed = false;
     movePad = movePadDefault;
 };
 
-DKey.press = function () {
+dKey.press = function () {
     //key object pressed
     dPressed = true;
 };
-DKey.release = function () {
+dKey.release = function () {
     //key object released
     dPressed = false;
     movePad = movePadDefault;
+};
+
+enterKey.press = function () {
+    //key object pressed
+    enterPressed = true;
+};
+enterKey.release = function () {
+    //key object released
+    enterPressed = false;
 };
 
 function keyboard(keyCode) {
@@ -161,6 +171,19 @@ function keyboard(keyCode) {
       "keyup", key.upHandler.bind(key), false
     );
     return key;
+}
+
+function start() {
+    var startText = new PIXI.Text("Press Enter to start", { font: "40px Arial", fill: "white" });
+    stage.addChild(startText);
+    startText.x = width / 2 - startText.width / 2;
+    startText.y = height / 2 + 75;
+    renderer.render(stage);
+
+    enterKey.press = function () {
+        stage.removeChild(startText);
+        requestAnimationFrame(update);
+    }
 }
 
 function update() {
