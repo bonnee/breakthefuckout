@@ -187,11 +187,11 @@ function start() {
 }
 
 function update() {
-
+    
     ball.position.x += ballSpdX;
     ball.position.y += ballSpdY;
-
     CheckCollisions();
+    
 
     if (aPressed) {
         if (pad.position.x - movePad > 0) {
@@ -229,9 +229,8 @@ function CheckCollisions() {
 
     if (ballSpdY > 0 && ball.position.y + ball.height >= pad.position.y && (ball.position.x + ball.width > pad.position.x && ball.position.x < pad.position.x + pad.width)) {
         collisionY = true;
-
+        ball.position.y = height - (ball.height + pad.height);
         ballSpdX = -((pad.position.x + (pad.width / 2)) - (ball.position.x + (ball.width / 2))) / divisorCollision;
-
         if (logging)
             console.log("Collision with pad");
     }
@@ -248,12 +247,23 @@ function CheckCollisions() {
         }
     }
 
-    if (ball.position.x + ball.width >= width || ball.position.x <= 0) {
+    if (ball.position.x + ball.width >= width) {
+        ball.position.x = width - ball.width;
         collisionX = true;
         if (logging)
-            console.log("Collision with bounds");
+            console.log("Collision with right bound");
     }
+
+    if (ball.position.x <= 0)
+    {
+        ball.position.x = 0;
+        collisionX = true;
+        if (logging)
+            console.log("Collision with left bound");
+    }
+
     if (ball.position.y <= 0) {
+        ball.position.y = 0;
         collisionY = true;
         if (logging)
             console.log("Collision with top bound");
