@@ -11,8 +11,14 @@
 
 
 <body onload="init();">
-    <div align="center">
-        <canvas id="game-canvas" width="919" height="768"></canvas>
+    <div class="main">
+        <div class="topbar"><span id="score">0</span></div>
+        <div class="game">
+            <canvas id="game-canvas" width="919" height="768"></canvas>
+            <div id="overlay">
+                <h1>Press [ENTER] to play/pause</h1>
+        </div>
+    </div>
     </div>
 </body>
 </html>
