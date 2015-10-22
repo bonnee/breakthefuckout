@@ -1,15 +1,44 @@
 ﻿body {
     margin: 0;
     padding: 0;
-    background-color: #000000;
+    background-color: #000;
+    color: #fff;
+    font-family: Sans-serif;
+    font-size:25px;
 }
 
 canvas {
-    border-style: solid;
-    border-color: gray;
-    border-left-width: 45px;
-    border-right-width: 45px;
-    border-top-width: 45px;
-    border-bottom-width:0;
-    background-color: #222222;
+    background-color: #000;
+    display: block;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.main {
+    width: 1009px;
+    margin-right: auto;
+    margin-left: auto;
+    background-color: gray;
+}
+
+.game {
+    margin-right: auto;
+    margin-left: auto;
+    padding: 0 45px;
+    width: 919px;
+    height: 768px;
+}
+
+.topbar {
+    height: 45px;
+    padding: 0 45px;
+}
+
+#overlay {
+    position:absolute;
+    top:45px;
+    width: 919px;
+    height: 768px;
+    background-color: #000;
+    text-align:center;
 }

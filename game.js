@@ -1,9 +1,9 @@
 /*
 TODO: 
 1. Mouse / keyboard control pad settings;
-2. Score managing:
+2. [DONE] Score managing:
 3. [DONE] Initial "Press [button] to start" splash screen;
-4. Level management via JSON files;
+4. [NEARLY DONE] Level management via JSON files;
 5. Difficulty settings (ball speed);
 */
 
@@ -13,8 +13,8 @@ var ballSpdX = 4;
 var ballSpdY = -5;
 var pad;
 var bricks;
-var scoreText;
-var running = true;
+var running = false;
+var over = false;
 var score = 0;
 var divisorCollision = 5;
 
@@ -43,7 +43,7 @@ function init() {
     );
 
     LoadObjects();
-    start();
+    update();
 }
 
 //      Load a JSON file from specified URL
@@ -99,10 +99,6 @@ function LoadObjects() {
     stage.addChild(ball);
     ball.position.y = height - 23;
     ball.position.x = width / 2 - ball.width / 2;
-
-    //score text
-    scoreText = new PIXI.Text(score, { font: "25px Arial", fill: "white" });
-    stage.addChild(scoreText);
 }
 
 aKey.press = function () {
@@ -128,7 +124,13 @@ dKey.release = function () {
 enterKey.press = function () {
     //key object pressed
     enterPressed = true;
+    if (!over && !running) {
+        running = true;
+        start();
+    } else
+        running = false;
 };
+
 enterKey.release = function () {
     //key object released
     enterPressed = false;
@@ -174,49 +176,41 @@ function keyboard(keyCode) {
 }
 
 function start() {
-    var startText = new PIXI.Text("Press Enter to start", { font: "40px Arial", fill: "white" });
-    stage.addChild(startText);
-    startText.x = width / 2 - startText.width / 2;
-    startText.y = height / 2 + 75;
-    renderer.render(stage);
-
-    enterKey.press = function () {
-        stage.removeChild(startText);
-        requestAnimationFrame(update);
-    }
+    document.getElementById("overlay").style.display = 'none';
 }
 
 function update() {
-    
-    ball.position.x += ballSpdX;
-    ball.position.y += ballSpdY;
-    CheckCollisions();
-    
+    if (running) {
+        ball.position.x += ballSpdX;
+        ball.position.y += ballSpdY;
+        CheckCollisions();
 
-    if (aPressed) {
-        if (pad.position.x - movePad > 0) {
-            pad.position.x -= movePad;
-            movePad += movePadIncreaser;
-        } else
-            pad.position.x = 0;
-    }
-    if (dPressed) {
-        if (pad.position.x + movePad < width - pad.width) {
-            pad.position.x += movePad;
-            movePad += movePadIncreaser;
+        if (aPressed) {
+            if (pad.position.x - movePad > 0) {
+                pad.position.x -= movePad;
+                movePad += movePadIncreaser;
+            } else
+                pad.position.x = 0;
         }
-        else
-            pad.position.x = width - pad.width;
-    }
+        if (dPressed) {
+            if (pad.position.x + movePad < width - pad.width) {
+                pad.position.x += movePad;
+                movePad += movePadIncreaser;
+            }
+            else
+                pad.position.x = width - pad.width;
+        }
 
-    renderer.render(stage);
-    if (running)
-        requestAnimationFrame(update);
-    else
-        requestAnimationFrame(end);
+        renderer.render(stage);
+
+        if (over)
+            requestAnimationFrame(end);
+    }
+    requestAnimationFrame(update);
 }
 
 function end() {
+    running = false;
     var endText = new PIXI.Text("Game Over", { font: "50px Arial", fill: "white" });
     stage.addChild(endText);
     endText.x = width / 2 - endText.width / 2;
@@ -240,7 +234,7 @@ function CheckCollisions() {
             bricks.blocks.splice(i, 1);
             stage.removeChild(b.sprite);
             score += b.score;
-            scoreText.setText(score);
+            document.getElementById("score").innerHTML = score;
             collisionY = true;
             if (logging)
                 console.log("Collision with block " + i);
@@ -254,8 +248,7 @@ function CheckCollisions() {
             console.log("Collision with right bound");
     }
 
-    if (ball.position.x <= 0)
-    {
+    if (ball.position.x <= 0) {
         ball.position.x = 0;
         collisionX = true;
         if (logging)
@@ -271,12 +264,12 @@ function CheckCollisions() {
 
     if (ball.position.y >= height - ball.height) {
         ball.position.y = height - ball.height;
-        running = false;
+        over = true;
         if (logging)
             console.log("Game Over");
     }
     if (bricks.blocks.length == 0)
-        running = false;
+        over = true;
 
     if (collisionX)
         ballSpdX = -ballSpdX;
