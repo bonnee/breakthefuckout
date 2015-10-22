@@ -1,5 +1,5 @@
 /*
-TODO: 
+TODO:
 1. Mouse / keyboard control pad settings;
 2. [DONE] Score managing:
 3. [DONE] Initial "Press [button] to start" splash screen;
