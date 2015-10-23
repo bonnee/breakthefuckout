@@ -20,6 +20,10 @@ canvas {
     margin-left: auto;
 }
 
+h1 {
+    margin: 0;
+}
+
 .main {
     width: 1009px;
     margin-right: auto;
@@ -47,6 +51,11 @@ canvas {
     height: 768px;
     background-color: #000;
     text-align:center;
+}
+
+.overtext {
+    padding: 35% 0;
+    margin: 0;
 }
 
 #lives{
