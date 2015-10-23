@@ -63,3 +63,7 @@ h1 {
     float:right;
     color:red;
 }
+
+.life {
+    margin: 0 5px;
+}
