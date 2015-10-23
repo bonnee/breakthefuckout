@@ -274,10 +274,15 @@ function CheckCollisions() {
         updateLife();
         }
         running = false;
+        //reset ball speed, position and slope, put the ball on the pad
         ballSpdX = 4;
         ballSpdY = -5;
-        ball.position.y = height - 23;
+        ball.position.y = height - 46 + 1; //+1 cause you can see the ball on the pad, otherwise it look like as on object
         ball.position.x = width / 2 - ball.width / 2;
+
+        //reset pad position
+        pad.position.x = width / 2 - pad.width / 2;
+        pad.position.y = height - 23;
     }
     if (bricks.blocks.length == 0)
         over = true;
