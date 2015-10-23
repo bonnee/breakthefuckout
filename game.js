@@ -276,8 +276,11 @@ function CheckCollisions() {
         running = false;
         ballSpdX = 4;
         ballSpdY = -5;
-        ball.position.y = height - 23;
+        ball.position.y = height - 46;
         ball.position.x = width / 2 - ball.width / 2;
+
+        pad.position.x = width / 2 - pad.width / 2;
+        pad.position.y = height - 23;
     }
     if (bricks.blocks.length == 0)
         over = true;
