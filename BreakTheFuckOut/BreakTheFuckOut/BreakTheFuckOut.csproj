@@ -71,7 +71,7 @@
   <ItemGroup>
     <Content Include="packages.config" />
     <Content Include="images\bg\bg.xcf" />
-    <Content Include="images\game_over.ttf" />
+    <Content Include="images\game_over.otf" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
