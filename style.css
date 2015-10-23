@@ -1,7 +1,7 @@
 ﻿@font-face{
     font-family: GameOver;
     font-weight: bold;
-    src: url('game_over.otf');
+    src: url('../images/game_over.otf');
 }
 
 body {
