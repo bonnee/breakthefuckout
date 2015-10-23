@@ -48,3 +48,9 @@ canvas {
     background-color: #000;
     text-align:center;
 }
+
+#lives{
+    position:relative;
+    float:right;
+    color:red;
+}
