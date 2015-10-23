@@ -17,6 +17,7 @@ var running = false;
 var over = false;
 var score = 0;
 var divisorCollision = 5;
+var life;
 
 var movePadDefault = 10;
 var movePadIncreaser = 1.1;  // set the pixel increase every time the pad is moving. giving the pad acceleration while key that move pad is pressed
@@ -33,6 +34,7 @@ var width = 919, height = 768;
 var logging = true;     //      Only for debug messages
 
 function init() {
+    life = 2;
     if (logging)
         console.log("game.js loaded");
     stage = new PIXI.Stage(0x66FF99);
@@ -41,6 +43,8 @@ function init() {
       height,
       { view: document.getElementById("game-canvas") }
     );
+
+    document.getElementById("lives").innerHTML = life;
 
     LoadObjects();
     update();
@@ -203,8 +207,9 @@ function update() {
 
         renderer.render(stage);
 
-        if (over)
+        if (over) {
             requestAnimationFrame(end);
+        }
     }
     requestAnimationFrame(update);
 }
@@ -263,9 +268,16 @@ function CheckCollisions() {
 
     if (ball.position.y >= height - ball.height) {
         ball.position.y = height - ball.height;
-        over = true;
+        //over = true;
+        life--;
         if (logging)
-            console.log("Game Over");
+            console.log("Life:" + life);
+        document.getElementById("lives").innerHTML = life;
+        running = false;
+        ballSpdX = 4;
+        ballSpdY = -5;
+        ball.position.y = height - 23;
+        ball.position.x = width / 2 - ball.width / 2;
     }
     if (bricks.blocks.length == 0)
         over = true;
@@ -274,4 +286,9 @@ function CheckCollisions() {
         ballSpdX = -ballSpdX;
     if (collisionY)
         ballSpdY = -ballSpdY;
+    if (life <= 0) {
+        over = true;
+        if (logging)
+            console.log("Game Over");
+    }
 }
