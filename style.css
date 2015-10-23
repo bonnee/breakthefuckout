@@ -1,10 +1,16 @@
-﻿body {
+﻿@font-face{
+    font-family: GameOver;
+    font-weight: bold;
+    src: url('game_over.otf');
+}
+
+body {
     margin: 0;
     padding: 0;
     background-color: #000;
     color: #fff;
-    font-family: Sans-serif;
-    font-size:25px;
+    font-family: GameOver, sans-serif;
+    font-size:60px;
 }
 
 canvas {
