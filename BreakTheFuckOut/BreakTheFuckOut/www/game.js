@@ -223,7 +223,6 @@ function CheckCollisions() {
 
     if (ballSpdY > 0 && ball.position.y + ball.height >= pad.position.y && (ball.position.x + ball.width > pad.position.x && ball.position.x < pad.position.x + pad.width)) {
         collisionY = true;
-        ball.position.y = height - (ball.height + pad.height);
         ballSpdX = -((pad.position.x + (pad.width / 2)) - (ball.position.x + (ball.width / 2))) / divisorCollision;
         if (logging)
             console.log("Collision with pad");
