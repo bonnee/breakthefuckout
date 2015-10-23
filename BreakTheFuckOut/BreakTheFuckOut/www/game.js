@@ -19,7 +19,7 @@ var score = 0;
 var divisorCollision = 5;
 
 var movePadDefault = 10;
-var movePadIncreaser = 1.2;  // set the pixel increase every time the pad is moving. giving the pad acceleration while key that move pad is pressed
+var movePadIncreaser = 1.1;  // set the pixel increase every time the pad is moving. giving the pad acceleration while key that move pad is pressed
 var movePad = movePadDefault;
 
 var aKey = keyboard(65);
