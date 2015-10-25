@@ -43,9 +43,10 @@ function init() {
       { view: document.getElementById("game-canvas") }
     );
 
+    LoadObjects();
+
     updateLife();
 
-    LoadObjects();
     update();
 }
 
@@ -133,7 +134,6 @@ enterKey.press = function () {
     } else
         running = false;
 };
-
 enterKey.release = function () {
     //key object released
     enterPressed = false;
@@ -272,18 +272,18 @@ function CheckCollisions() {
         if (logging)
             console.log("Life:" + life);
         updateLife();
-        }
-        running = false;
-        //reset ball speed, position and slope, put the ball on the pad
-        ballSpdX = 4;
-        ballSpdY = -5;
-        ball.position.y = height - 46 + 1; //+1 cause you can see the ball on the pad, otherwise it look like as on object
-        ball.position.x = width / 2 - ball.width / 2;
-
-        //reset pad position
-        pad.position.x = width / 2 - pad.width / 2;
-        pad.position.y = height - 23;
     }
+    running = false;
+    //reset ball speed, position and slope, put the ball on the pad
+    ballSpdX = 4;
+    ballSpdY = -5;
+    ball.position.y = height - 46 + 1; //+1 cause you can see the ball on the pad, otherwise it look like as on object
+    ball.position.x = width / 2 - ball.width / 2;
+
+    //reset pad position
+    pad.position.x = width / 2 - pad.width / 2;
+    pad.position.y = height - 23;
+
     if (bricks.blocks.length == 0)
         over = true;
 
@@ -296,10 +296,11 @@ function CheckCollisions() {
         if (logging)
             console.log("Game Over");
     }
+}
 
-    function updateLife() {
-        document.getElementById("lives").innerHTML = "";
-        for (var i = 0; i < life; i++) {
-            document.getElementById("lives").innerHTML += '<img class="life" src="../images/ball.png" />';
+function updateLife() {
+    document.getElementById("lives").innerHTML = "";
+    for (var i = 0; i < life; i++) {
+        document.getElementById("lives").innerHTML += '<img class="life" src="../images/ball.png" />';
     }
 }
