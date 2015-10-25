@@ -58,12 +58,25 @@ h1 {
     margin: 0;
 }
 
-#lives{
-    position:relative;
-    float:right;
-    color:red;
-}
-
 .life {
     margin: 10px 5px;
+}
+
+#lives{
+    display: inline-block;
+    text-align:right;
+    float:right;
+    color:red;
+    width:19%;
+}
+
+#score {
+    display: inline-block;
+    width:19%;
+}
+
+#tips {
+    display: inline-block;
+    width:60%;
+    text-align:center;
 }

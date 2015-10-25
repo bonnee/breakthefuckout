@@ -32,7 +32,7 @@ var enterPressed = false;
 var waitingForEnter = false;
 
 var width = 919, height = 768;
-var logging = true;     //      Only for debug messages
+var logging = false;     //      Only for debug messages
 
 function init() {
     if (logging)
@@ -131,14 +131,14 @@ enterKey.press = function () {
     enterPressed = true;
     if (!over && waitingForEnter) {
         Reset();
-        running = true;
+        Start();
         waitingForEnter = false;
     } else if (!over && !running) {
-        running = true;
-        start();
+        Start();
     }
-    else
-        running = false;
+    else {
+        Stop();
+    }
 };
 enterKey.release = function () {
     //key object released
@@ -184,8 +184,15 @@ function keyboard(keyCode) {
     return key;
 }
 
-function start() {
+function Start() {
     document.getElementById("overlay").style.display = 'none';
+    running = true;
+    document.getElementById("tips").innerHTML = "Game running. Press Enter to pause.";
+}
+
+function Stop() {
+    running = false;
+    document.getElementById("tips").innerHTML = "Game paused. Press Enter to resume.";
 }
 
 function update() {
@@ -274,7 +281,7 @@ function CheckCollisions() {
     if (ball.position.y >= height - ball.height) {
         ball.position.y = height - ball.height;
         life--;
-        running = false;
+        Stop();
         
         updateLife();
 
