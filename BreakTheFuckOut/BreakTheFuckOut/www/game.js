@@ -9,8 +9,8 @@ TODO:
 
 var stage;
 var ball;
-var ballSpdX = 4;
-var ballSpdY = -5;
+var ballSpdX;
+var ballSpdY;
 var pad;
 var bricks;
 var running = false;
@@ -29,6 +29,7 @@ var enterKey = keyboard(13);
 var aPressed = false;
 var dPressed = false;
 var enterPressed = false;
+var waitingForEnter = false;
 
 var width = 919, height = 768;
 var logging = true;     //      Only for debug messages
@@ -94,15 +95,15 @@ function LoadObjects() {
     var padTexture = PIXI.Texture.fromImage("../images/pad.png");
     pad = new PIXI.Sprite(padTexture);
     stage.addChild(pad);
-    pad.position.x = width / 2 - pad.width / 2;
-    pad.position.y = height - 23;
+    pad.height = 23;
 
     //create ball
     var ballTexture = PIXI.Texture.fromImage("../images/ball.png");
     ball = new PIXI.Sprite(ballTexture);
     stage.addChild(ball);
-    ball.position.y = height - 23;
-    ball.position.x = width / 2 - ball.width / 2;
+    ball.height = 23;
+
+    Reset();
 }
 
 aKey.press = function () {
@@ -128,10 +129,15 @@ dKey.release = function () {
 enterKey.press = function () {
     //key object pressed
     enterPressed = true;
-    if (!over && !running) {
+    if (!over && waitingForEnter) {
+        Reset();
+        running = true;
+        waitingForEnter = false;
+    } else if (!over && !running) {
         running = true;
         start();
-    } else
+    }
+    else
         running = false;
 };
 enterKey.release = function () {
@@ -267,23 +273,12 @@ function CheckCollisions() {
 
     if (ball.position.y >= height - ball.height) {
         ball.position.y = height - ball.height;
-        //over = true;
         life--;
         running = false;
         
-        //reset ball speed, position and slope, put the ball on the pad
-        ballSpdX = 4;
-        ballSpdY = -5;
-        ball.position.y = height - 46 + 1; //+1 cause you can see the ball on the pad, otherwise it look like as on object
-        ball.position.x = width / 2 - ball.width / 2;
-
-        //reset pad position
-        pad.position.x = width / 2 - pad.width / 2;
-        pad.position.y = height - 23;
-
-        if (logging)
-            console.log("Life:" + life);
         updateLife();
+
+        waitingForEnter = true;
     }
 
     if (bricks.blocks.length == 0)
@@ -305,4 +300,18 @@ function updateLife() {
     for (var i = 0; i < life; i++) {
         document.getElementById("lives").innerHTML += '<img class="life" src="../images/ball.png" />';
     }
+
+    if (logging)
+        console.log("Life:" + life);
+}
+
+function Reset() {
+    ballSpdX = 4;
+    ballSpdY = -5;
+
+    pad.position.x = width / 2 - pad.width / 2;
+    pad.position.y = height - pad.height;
+
+    ball.position.y = height - pad.height - ball.height;
+    ball.position.x = width / 2 - ball.width / 2;
 }
