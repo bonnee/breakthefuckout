@@ -13,15 +13,20 @@
 <body onload="init();">
     <div class="main">
         <div class="topbar">
-            <div id="score">0</div>
-            <div id="tips">Welcome to BreakTheFuckOut. Have fun!</div>
-            <div id="lives"></div>
+            <div id="score" class="left">0</div>
+            <div id="tips" class="center">Welcome to BreakTheFuckOut. Have fun!</div>
+            <div id="lives" class="right"></div>
         </div>
         <div class="game">
             <canvas id="game-canvas" width="919" height="768"></canvas>
             <div id="overlay">
+                <div class="overtop">
+                    <div style="text-align:right;margin-top:-13px;" class="left">&#8624;<br />Score</div>
+                    <div class="center">&#65514;Stupid tips&#65514;</div>
+                    <div style="text-align:left;margin-top:-13px;" class="right">&#8625;<br />Lives</div>
+                </div>
                 <div class="overtext">
-                    <h1>Press Enter to play or pause<br />Use A and D to move the pad</h1>
+                    <h1>Press <span style="font-size:0.4em;margin:0 2px;display:inline-block">⏎</span> to play or pause<br />Use A and D to move the <img style="margin-left:10px;padding-top:5px;" src="../images/pad.png" /></h1>
                 </div>
             </div>
         </div>
