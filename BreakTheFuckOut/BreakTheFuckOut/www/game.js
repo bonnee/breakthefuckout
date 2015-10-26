@@ -25,6 +25,7 @@ var movePad = movePadDefault;
 
 var aKey = keyboard(65);
 var dKey = keyboard(68);
+var nRefresh = keyboard(78);
 var enterKey = keyboard(13);
 var aPressed = false;
 var dPressed = false;
@@ -125,6 +126,10 @@ dKey.release = function () {
     dPressed = false;
     movePad = movePadDefault;
 };
+
+nRefresh.press = function () {
+    location.reload();
+}
 
 enterKey.press = function () {
     //key object pressed
