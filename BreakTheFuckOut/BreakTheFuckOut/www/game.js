@@ -17,7 +17,7 @@ var running = false;
 var over = false;
 var score = 0;
 var divisorCollision = 5;
-var life = 3;
+var lives = 3;
 
 var movePadDefault = 10;
 var movePadIncreaser = 1.1;  // set the pixel increase every time the pad is moving. giving the pad acceleration while key that move pad is pressed
@@ -46,7 +46,7 @@ function init() {
 
     LoadObjects();
 
-    updateLife();
+    updateLives();
 
     update();
 }
@@ -280,10 +280,10 @@ function CheckCollisions() {
 
     if (ball.position.y >= height - ball.height) {
         ball.position.y = height - ball.height;
-        life--;
+        lives--;
         Stop();
         
-        updateLife();
+        updateLives();
 
         waitingForEnter = true;
     }
@@ -295,21 +295,21 @@ function CheckCollisions() {
         ballSpdX = -ballSpdX;
     if (collisionY)
         ballSpdY = -ballSpdY;
-    if (life <= 0) {
+    if (lives <= 0) {
         over = true;
         if (logging)
             console.log("Game Over");
     }
 }
 
-function updateLife() {
+function updateLives() {
     document.getElementById("lives").innerHTML = "";
-    for (var i = 0; i < life; i++) {
+    for (var i = 0; i < lives; i++) {
         document.getElementById("lives").innerHTML += '<img class="life" src="../images/ball.png" />';
     }
 
     if (logging)
-        console.log("Life:" + life);
+        console.log("Lives: " + lives);
 }
 
 function Reset() {

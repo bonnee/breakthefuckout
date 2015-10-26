@@ -10,7 +10,8 @@ body {
     background-color: #000;
     color: #fff;
     font-family: GameOver, sans-serif;
-    font-size:60px;
+    font-size: 60px;
+    line-height: 45px;
 }
 
 canvas {
@@ -58,25 +59,27 @@ h1 {
     margin: 0;
 }
 
+.overtop{
+    line-height:0.5em;
+}
+
 .life {
     margin: 10px 5px;
 }
 
-#lives{
-    display: inline-block;
+.right {
     text-align:right;
     float:right;
-    color:red;
-    width:19%;
+    width: 15%;
 }
 
-#score {
-    display: inline-block;
-    width:19%;
+.left {
+    float:left;
+    width: 15%;
 }
 
-#tips {
+.center {
     display: inline-block;
-    width:60%;
+    width:70%;
     text-align:center;
 }
