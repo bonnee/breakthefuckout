@@ -84,7 +84,7 @@ function LoadObjects() {
         b.width = parseInt(b.width);
         b.height = parseInt(b.height);
         b.score = parseInt(b.score);
-        var wbTexture = PIXI.Texture.fromImage("../images/" + b.color + ".png");
+        var wbTexture = PIXI.Texture.fromImage("../images/bricks/" + b.color + ".png");
         wb = new PIXI.Sprite(wbTexture);
         wb.position.x = b.x;
         wb.position.y = b.y;
