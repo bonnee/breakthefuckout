@@ -2,9 +2,10 @@ var stage;
 var bricks;
 var selectedBrick;
 var levName = 1;
+var rect;
 
 var width = 919, height = 768;
-var logging = false;     //      Only for debug messages
+var logging = true;     //      Only for debug messages
 
 function init() {
     if (logging)
@@ -19,14 +20,25 @@ function init() {
     LoadBricks();
     LoadObjects();
     document.getElementById('score').innerHTML = "Level: " + levName;
+
+    rect = document.getElementById("game-canvas").getBoundingClientRect();
+    
+    selectedBrick = new PIXI.Sprite();
+    SelectBrick("blue.png");
+    stage.addChild(selectedBrick);
+
     requestAnimationFrame(Update);
 }
 
 PIXI.interaction.InteractionManager.prototype.onMouseMove = function (event) {
-    selectedBrick.position.x = event.clientX;
-    selectedBrick.position.y = event.clientY;
+    selectedBrick.position.x = (event.clientX-rect.left - selectedBrick.width / 2)-selectedBrick.position.x%45;
+    selectedBrick.position.y = (event.clientY-rect.top / 2 - selectedBrick.height / 2)-selectedBrick.position.y%23;;
     //console.log( + ", " + event.clientY);
+
+    requestAnimationFrame(Update);
 }
+
+
 
 //      Load a JSON file from specified URL
 function JSONLoader(url) {
@@ -67,6 +79,7 @@ function LoadObjects() {
         stage.addChild(wb);
         b.sprite = wb;
     }
+    requestAnimationFrame(Update);
 }
 
 function LoadBricks() {
@@ -85,16 +98,14 @@ function LoadBricks() {
 
 function Update() {
     renderer.render(stage);
-    requestAnimationFrame(Update);
 }
 
 function SelectBrick(name) {
     if (logging)
         console.log(name + " selected");
+
     stage.removeChild(selectedBrick);
-    var wbTexture = PIXI.Texture.fromImage("../../images/bricks/" + name);
-    selectedBrick = new PIXI.Sprite(wbTexture);
-    selectedBrick.position.x = 0;
-    selectedBrick.position.y = 0;
+    selectedBrick=new PIXI.Sprite(PIXI.Texture.fromImage("../../images/bricks/" + name));
     stage.addChild(selectedBrick);
+    requestAnimationFrame(Update);
 }
