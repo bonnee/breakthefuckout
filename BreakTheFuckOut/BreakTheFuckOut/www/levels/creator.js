@@ -1,7 +1,7 @@
 var stage;
 var bricks;
 var selectedBrick;
-var levName=1;
+var levName = 1;
 
 var width = 919, height = 768;
 var logging = false;     //      Only for debug messages
@@ -15,10 +15,17 @@ function init() {
       height,
       { view: document.getElementById("game-canvas") }
     );
+
     LoadBricks();
     LoadObjects();
-document.getElementById('score').innerHTML="Level: "+levName;
+    document.getElementById('score').innerHTML = "Level: " + levName;
     requestAnimationFrame(Update);
+}
+
+PIXI.interaction.InteractionManager.prototype.onMouseMove = function (event) {
+    selectedBrick.position.x = event.clientX;
+    selectedBrick.position.y = event.clientY;
+    //console.log( + ", " + event.clientY);
 }
 
 //      Load a JSON file from specified URL
@@ -44,7 +51,7 @@ function JSONLoader(url) {
 }
 
 function LoadObjects() {
-    bricks = JSONLoader(levName+".json");
+    bricks = JSONLoader(levName + ".json");
     var i, l;
     for (i = 0, l = bricks.blocks.length; i < l; i++) {
         var b = bricks.blocks[i];
@@ -60,43 +67,34 @@ function LoadObjects() {
         stage.addChild(wb);
         b.sprite = wb;
     }
-    //for(i=0;i<)
 }
 
-function LoadBricks(){
-$.ajax({
-  url: "../../images/bricks/",
-  success: function(data){
-     $(data).find("a:contains(.png)").each(function(){
-	var image=$(this).attr("href");
-        document.getElementById('tips').innerHTML+='<img onclick="SelectBrick(\'' + image + '\')" class="life" src="../../images/bricks/' + image + '"/>';
-console.log(image);
-     });
-  }
-});
+function LoadBricks() {
+    $.ajax({
+        url: "../../images/bricks/",
+        success: function (data) {
+            $(data).find("a:contains(.png)").each(function () {
+                var image = $(this).attr("href");
+                document.getElementById('tips').innerHTML += '<img onclick="SelectBrick(\'' + image + '\')" class="life" src="../../images/bricks/' + image + '"/>';
+                console.log(image);
+            });
+        }
+    });
 }
 
 
 function Update() {
-        renderer.render(stage);
-	requestAnimationFrame(Update);
+    renderer.render(stage);
+    requestAnimationFrame(Update);
 }
 
 function SelectBrick(name) {
-	if(logging)
-		console.log(name + " selected");
-	selectedBrick = name;
+    if (logging)
+        console.log(name + " selected");
+    stage.removeChild(selectedBrick);
+    var wbTexture = PIXI.Texture.fromImage("../../images/bricks/" + name);
+    selectedBrick = new PIXI.Sprite(wbTexture);
+    selectedBrick.position.x = 0;
+    selectedBrick.position.y = 0;
+    stage.addChild(selectedBrick);
 }
-
-mySprite.mousemove = function(mouseData)
-{
-    // this line will get the mouse coords relative to the sprites..
-    var localCoordsPosition = mouseData.getLocalPosition(mySprite);
- 
-    // this line will get the mouse coords relative to the sprites parent..
-    var parentCoordsPosition = mouseData.getLocalPosition(mySprite.parent);
- 
-    this.position.x = parentCoordsPosition.x;
-    this.position.y = parentCoordsPosition.y;
-}
-
