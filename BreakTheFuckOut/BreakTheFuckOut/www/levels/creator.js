@@ -31,13 +31,21 @@ function init() {
 }
 
 PIXI.interaction.InteractionManager.prototype.onMouseMove = function (event) {
-    selectedBrick.position.x = (event.clientX-rect.left - selectedBrick.width / 2)-selectedBrick.position.x%45;
-    selectedBrick.position.y = (event.clientY-rect.top / 2 - selectedBrick.height / 2)-selectedBrick.position.y%23;;
+    var partX = (event.clientX - rect.left - selectedBrick.width / 2);
+    var partY = (event.clientY - rect.top / 2 - selectedBrick.height / 2);
+    selectedBrick.position.x = partX - partX % 45 + partX / 45;
+    selectedBrick.position.y = partY - partY % 23 + partY / 23;
     //console.log( + ", " + event.clientY);
 
     requestAnimationFrame(Update);
 }
 
+PIXI.interaction.InteractionManager.prototype.onMouseDown = function (event) {
+    //bricks.blocks.push({ x: selectedBrick.position.x, y: selectedBrick.position.y, sprite: selectedBrick.sprite, color: selectedBrick.color });
+    var tx = selectedBrick;
+    stage.addChild(tx);
+    console.log("Cleeck");
+}
 
 
 //      Load a JSON file from specified URL
