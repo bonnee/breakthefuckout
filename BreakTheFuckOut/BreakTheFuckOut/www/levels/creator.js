@@ -1,7 +1,7 @@
 var stage;
 var bricks;
 var selectedBrick;
-var levName = 1;
+var levName = 2;
 var rect;
 
 var width = 919, height = 768;
