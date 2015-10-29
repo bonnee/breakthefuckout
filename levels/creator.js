@@ -31,12 +31,12 @@ function init() {
 }
 
 PIXI.interaction.InteractionManager.prototype.onMouseMove = function (event) {
-    var partX = (event.clientX - rect.left - selectedBrick.width / 2);
-    var partY = (event.clientY - rect.top / 2 - selectedBrick.height / 2);
-    selectedBrick.position.x = partX - partX % 45 + partX / 45;
-    selectedBrick.position.y = partY - partY % 23 + partY / 23;
-    //console.log( + ", " + event.clientY);
+    var partX = event.clientX - rect.left;
+    var partY = event.clientY - rect.top / 2;
+    selectedBrick.position.x = Math.floor(partX / 46) * 46;
+    selectedBrick.position.y = Math.floor(partY / 24) * 24;
 
+    //console.log(selectedBrick.position.x + ", " + selectedBrick.position.y);
     requestAnimationFrame(Update);
 }
 
@@ -87,6 +87,17 @@ function LoadObjects() {
         stage.addChild(wb);
         b.sprite = wb;
     }
+    var graphics = new PIXI.Graphics().lineStyle(1, 0x808080);
+    for(i = 0;i < width / 46; i++) {
+        graphics.moveTo((i * 46)-1, 0);
+        graphics.lineTo((i * 46)-1, height);
+    }
+    for(i = 0;i < height / 24; i++) {
+        graphics.moveTo(0, (i * 24)-1);
+        graphics.lineTo(width, (i * 24)-1);
+    }
+    stage.addChild(graphics);
+
     requestAnimationFrame(Update);
 }
 
