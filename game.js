@@ -25,6 +25,9 @@ var movePad = movePadDefault;
 
 var aKey = keyboard(65);
 var dKey = keyboard(68);
+var mKey = keyboard(77);
+var spaceKey = keyboard(32);
+var debugkey = false;
 var nRefresh = keyboard(78);
 var enterKey = keyboard(13);
 var aPressed = false;
@@ -121,11 +124,28 @@ dKey.press = function () {
     //key object pressed
     dPressed = true;
 };
+
 dKey.release = function () {
     //key object released
     dPressed = false;
     movePad = movePadDefault;
 };
+
+mKey.press = function () {
+    debugkey = !debugkey;
+    console.log("debugKey: " + debugkey);
+    if(!debugkey)
+        requestAnimationFrame(update);
+}
+
+mKey.release = function () {
+}
+
+spaceKey.press = function () {
+    if (debugkey) {
+        requestAnimationFrame(update);
+    }
+}
 
 nRefresh.press = function () {
     location.reload();
@@ -228,12 +248,16 @@ function update() {
             requestAnimationFrame(end);
         }
     }
-    requestAnimationFrame(update);
+    if (!debugkey)
+        requestAnimationFrame(update);
 }
 
 function end() {
     running = false;
-    var endText = new PIXI.Text("Game Over", { font: "50px Arial", fill: "white" });
+    if (bricks.blocks.length<=0)
+        var endText = new PIXI.Text("You won but... The game is over man", { font: "50px Arial", fill: "white" });
+    else
+        var endText = new PIXI.Text("Game Over :(", { font: "50px Arial", fill: "white" });
     stage.addChild(endText);
     endText.x = width / 2 - endText.width / 2;
     endText.y = height / 2 + 75;
