@@ -20,13 +20,12 @@ function init() {
     LoadBricks();
     LoadObjects();
     document.getElementById('score').innerHTML = "Level: " + levName;
-
-    rect = document.getElementById("game-canvas").getBoundingClientRect();
     
     selectedBrick = new PIXI.Sprite();
     SelectBrick("blue.png");
     stage.addChild(selectedBrick);
 
+    rect = document.getElementById("game-canvas").getBoundingClientRect();
     requestAnimationFrame(Update);
 }
 
@@ -111,6 +110,7 @@ function LoadBricks() {
                 document.getElementById('tips').innerHTML += '<img onclick="SelectBrick(\'' + image + '\')" class="life" src="../../images/bricks/' + image + '"/>';
                 console.log(image);
             });
+            document.getElementById('tips').innerHTML += '<img onclick="SelectBrick(\'eraser.png\')" class="life" src="../../images/eraser.png"/>';
         }
     });
 }

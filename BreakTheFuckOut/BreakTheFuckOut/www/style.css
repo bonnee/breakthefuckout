@@ -24,6 +24,18 @@ canvas {
 h1 {
     margin: 0;
 }
+button {
+    font-family: inherit;
+    font-size: .85em;
+    background-color: transparent;
+    border: 4px solid white;
+    padding-top: -10px;
+    color: white;
+}
+button:hover {
+    background-color: white;
+    color: gray;
+}
 
 .main {
     width: 1009px;
@@ -71,6 +83,9 @@ h1 {
     text-align:right;
     float:right;
     width: 15%;
+}
+.right button {
+    margin-top: 3px;
 }
 
 .left {
