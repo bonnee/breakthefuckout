@@ -22,7 +22,7 @@ function init() {
     document.getElementById('score').innerHTML = "Level: " + levName;
     
     selectedBrick = new PIXI.Sprite();
-    SelectBrick("blue.png");
+    //SelectBrick("eraser.png");
     stage.addChild(selectedBrick);
 
     rect = document.getElementById("game-canvas").getBoundingClientRect();
@@ -38,13 +38,26 @@ PIXI.interaction.InteractionManager.prototype.onMouseMove = function (event) {
 }
 
 PIXI.interaction.InteractionManager.prototype.onMouseDown = function (event) {
+  if(selectedBrick.color != "eraser.png"){
     bricks.blocks.push({ x: selectedBrick.position.x, y: selectedBrick.position.y, width: selectedBrick.width, height: selectedBrick.height, sprite: selectedBrick, color: selectedBrick.color });
     var s = new PIXI.Sprite(PIXI.Texture.fromImage("../../images/bricks/" + selectedBrick.color));
     s.position.x = selectedBrick.position.x;
     s.position.y = selectedBrick.position.y;
     s.width = selectedBrick.width;
     s.height = selectedBrick.height;
+    s.color = selectedBrick.color;
     stage.addChild(s);
+  } else {
+    for(var i = bricks.blocks.length -1 ; i >= 0; i--) {
+    var s = bricks.blocks[i];
+    console.log("X: "+selectedBrick.position.x+" - "+s.x+"\nY: "+selectedBrick.position.y+" - "+s.y);
+      if(s.x == selectedBrick.position.x && s.y == selectedBrick.position.y) {
+        stage.removeChild(s.sprite);
+        bricks.blocks.splice(i, 1);
+        break;
+      }
+    }
+  }
     requestAnimationFrame(Update);
 }
 
@@ -107,10 +120,10 @@ function LoadBricks() {
         success: function (data) {
             $(data).find("a:contains(.png)").each(function () {
                 var image = $(this).attr("href");
-                document.getElementById('tips').innerHTML += '<img onclick="SelectBrick(\'' + image + '\')" class="life" src="../../images/bricks/' + image + '"/>';
+                document.getElementById('tips').innerHTML += '<img id="' + image + '" onclick="SelectBrick(\'' + image + '\')" class="life" src="../../images/bricks/' + image + '"/>';
                 console.log(image);
             });
-            document.getElementById('tips').innerHTML += '<img onclick="SelectBrick(\'eraser.png\')" class="life" src="../../images/eraser.png"/>';
+            document.getElementById('tips').innerHTML += '<img id="eraser.png" onclick="SelectBrick(\'eraser.png\')" class="life" src="../../images/eraser.png"/>';
         }
     });
 }
@@ -125,7 +138,7 @@ function SelectBrick(name) {
         console.log(name + " selected");
 
     stage.removeChild(selectedBrick);
-    selectedBrick=new PIXI.Sprite(PIXI.Texture.fromImage("../../images/bricks/" + name));
+    selectedBrick = new PIXI.Sprite(PIXI.Texture.fromImage(document.getElementById(name).src));
     selectedBrick.color = name;
     stage.addChild(selectedBrick);
     requestAnimationFrame(Update);
