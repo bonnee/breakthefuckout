@@ -36,6 +36,14 @@ button:hover {
     background-color: white;
     color: gray;
 }
+a {
+   color: inherit;
+   text-decoration: none;
+}
+
+a:hover {
+   text-decoration: underline;
+}
 
 .main {
     width: 1009px;
@@ -43,7 +51,6 @@ button:hover {
     margin-left: auto;
     background-color: gray;
 }
-
 .game {
     margin-right: auto;
     margin-left: auto;
@@ -67,7 +74,7 @@ button:hover {
 }
 
 .overtext {
-    padding: 35% 0;
+    padding: 30% 0;
     margin: 0;
 }
 
@@ -91,10 +98,25 @@ button:hover {
 .left {
     float:left;
     width: 15%;
+text-align:left;
 }
 
 .center {
     display: inline-block;
     width:70%;
     text-align:center;
+}
+.foot {
+    font-size: .7em;
+    position: absolute;
+    width:100%;
+    bottom:0;
+    background-color: rgba(128, 128, 128, 0.2);
+    text-align: center;
+}
+.foot .right, .foot .left {
+    width:49% !important;
+}
+.foot p {
+    margin:0;
 }
