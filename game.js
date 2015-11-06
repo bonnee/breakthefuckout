@@ -318,7 +318,9 @@ function updateLives() {
 }
 
 function Reset() {
-    ballSpdX = 4;
+    //ballSpdX = 4;
+    //ballSpdY = -5;
+    ballSpdX = random(-5, 6); //random slope
     ballSpdY = -5;
 
     pad.position.x = width / 2 - pad.width / 2;
@@ -327,3 +329,11 @@ function Reset() {
     ball.position.y = height - pad.height - ball.height;
     ball.position.x = width / 2 - ball.width / 2;
 }
+
+/**
+ * Returns a random number between min (inclusive) and max (exclusive)
+ */
+function random(min, max) {
+    return Math.random() * (max - min) + min;
+}
+
