@@ -12,12 +12,12 @@ var ball;
 var ballSpdX;
 var ballSpdY;
 var pad;
-var bricks;
 var running = false;
 var over = false;
 var score = 0;
 var divisorCollision = 5;
 var lives = 3;
+var level;
 
 var movePadDefault = 10;
 var movePadIncreaser = 1.1;  // set the pixel increase every time the pad is moving. giving the pad acceleration while key that move pad is pressed
@@ -48,46 +48,24 @@ function init() {
       { view: document.getElementById("game-canvas") }
     );
 
+    level = new Level();
     LoadObjects();
-
     updateLives();
-
     update();
 }
 
-//      Load a JSON file from specified URL
-function JSONLoader(url) {
-    var data;
-    request = new XMLHttpRequest();
-    request.open('GET', url, false);
-
-    request.onload = function () {
-        if (request.status >= 200 && request.status < 400) {
-            data = JSON.parse(request.responseText);
-        } else {
-            if (logging)
-                console.log("Error loading bricks placement");
-        }
-    };
-
-    request.onerror = function () {
-    };
-
-    request.send();
-    return data;
-}
 
 function LoadObjects() {
-    bricks = JSONLoader("levels/1.json");
+    level.load(1);
     var i, l;
-    for (i = 0, l = bricks.blocks.length; i < l; i++) {
-        var b = bricks.blocks[i];
+    for (i = 0, l = level.bricks.length; i < l; i++) {
+        var b = level.bricks[i];
         b.x = parseInt(b.x);
         b.y = parseInt(b.y);
         b.width = parseInt(b.width);
         b.height = parseInt(b.height);
         b.score = parseInt(b.score);
-        var wbTexture = PIXI.Texture.fromImage("../images/bricks/" + b.color);
+        var wbTexture = PIXI.Texture.fromImage("../images/level.bricks/" + b.color);
         wb = new PIXI.Sprite(wbTexture);
         wb.position.x = b.x;
         wb.position.y = b.y;
@@ -254,7 +232,7 @@ function update() {
 
 function end() {
     running = false;
-    if (bricks.blocks.length<=0)
+    if (level.bricks.length<=0)
         var endText = new PIXI.Text("You won but... The game is over man", { font: "50px Arial", fill: "white" });
     else
         var endText = new PIXI.Text("Game Over :(", { font: "50px Arial", fill: "white" });
@@ -273,10 +251,10 @@ function CheckCollisions() {
         if (logging)
             console.log("Collision with pad");
     }
-    for (var i = 0; i < bricks.blocks.length; i++) {
-        var b = bricks.blocks[i];
+    for (var i = 0; i < level.bricks.length; i++) {
+        var b = level.bricks[i];
         if ((ball.position.y <= b.y + b.height && ball.position.y + ball.height >= b.y) && (ball.position.x <= b.x + b.width && ball.position.x + ball.width >= b.x)) {
-            bricks.blocks.splice(i, 1);
+            level.bricks.splice(i, 1);
             stage.removeChild(b.sprite);
             score += b.score;
             document.getElementById("score").innerHTML = score;
@@ -317,7 +295,7 @@ function CheckCollisions() {
         waitingForEnter = true;
     }
 
-    if (bricks.blocks.length == 0)
+    if (level.bricks.length == 0)
         over = true;
 
     if (collisionX)
