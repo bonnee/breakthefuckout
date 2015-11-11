@@ -1,8 +1,7 @@
 var stage;
-var bricks;
 var selectedBrick;
-var levName = 2;
 var rect;
+var level;
 
 var width = 919, height = 768;
 var logging = true;     //      Only for debug messages
@@ -16,6 +15,7 @@ function init() {
       height,
       { view: document.getElementById("game-canvas") }
     );
+    level = new Level();
 
     LoadBricks();
     LoadObjects();
@@ -39,44 +39,48 @@ PIXI.interaction.InteractionManager.prototype.onMouseMove = function (event) {
 
 PIXI.interaction.InteractionManager.prototype.onMouseDown = function (event) {
   if(selectedBrick.color != "eraser.png"){
-    bricks.blocks.push({ x: selectedBrick.position.x, y: selectedBrick.position.y, width: selectedBrick.width, height: selectedBrick.height, sprite: selectedBrick, color: selectedBrick.color });
+    bricks.push({ x: selectedBrick.position.x, y: selectedBrick.position.y, width: selectedBrick.width, height: selectedBrick.height, sprite: selectedBrick, color: selectedBrick.color });
     var s = new PIXI.Sprite(PIXI.Texture.fromImage("../../images/bricks/" + selectedBrick.color));
     s.position.x = selectedBrick.position.x;
     s.position.y = selectedBrick.position.y;
-    s.width = selectedBrick.width;
-    s.height = selectedBrick.height;
+    //s.width = selectedBrick.width;
+    //s.height = selectedBrick.height;
     s.color = selectedBrick.color;
     stage.addChild(s);
+    requestAnimationFrame(Update);
   } else {
-    for(var i = bricks.blocks.length -1 ; i >= 0; i--) {
-    var s = bricks.blocks[i];
-    console.log("X: "+selectedBrick.position.x+" - "+s.x+"\nY: "+selectedBrick.position.y+" - "+s.y);
+    for(var i = bricks.length -1 ; i >= 0; i--) {
+      var s = bricks[i];
+      console.log("X: "+selectedBrick.position.x+" - "+s.x+"\nY: "+selectedBrick.position.y+" - "+s.y);
+
       if(s.x == selectedBrick.position.x && s.y == selectedBrick.position.y) {
         stage.removeChild(s.sprite);
-        bricks.blocks.splice(i, 1);
+        bricks.splice(i, 1);
+        console.log("BOOM");
         break;
       }
     }
-  }
     requestAnimationFrame(Update);
+  }
 }
 
 function LoadObjects() {
-    bricks = JSONLoader(levName + ".json");
+    level.load(prompt("Level name:"));
     var i, l;
-    for (i = 0, l = bricks.blocks.length; i < l; i++) {
-        var b = bricks.blocks[i];
+    for (i = 0, l = bricks.length; i < l; i++) {
+        var b = bricks[i];
         b.x = parseInt(b.x);
         b.y = parseInt(b.y);
         b.width = parseInt(b.width);
         b.height = parseInt(b.height);
         b.score = parseInt(b.score);
-        var wbTexture = PIXI.Texture.fromImage("../../images/bricks/" + b.color);
-        wb = new PIXI.Sprite(wbTexture);
-        wb.position.x = b.x;
-        wb.position.y = b.y;
-        stage.addChild(wb);
-        b.sprite = wb;
+        var t = PIXI.Texture.fromImage("../../images/bricks/" + b.color);
+        s = new PIXI.Sprite(t);
+        s.position.x = b.x;
+        s.position.y = b.y;
+	s.color=b.color;
+        stage.addChild(s);
+        b.sprite = s;
     }
     var graphics = new PIXI.Graphics().lineStyle(1, 0x808080);
     for(i = 1;i < width / 46; i++) {
