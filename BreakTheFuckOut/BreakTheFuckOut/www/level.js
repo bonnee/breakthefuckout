@@ -9,6 +9,11 @@ function Level() {
       bricks = tmp.bricks;
   }
   
+  this.addBrick = function(spr) {
+	  bricks.push({ x: spr.position.x, y: spr.position.y, width: spr.width, height: spr.height, sprite: spr, color: spr.color });
+	  return spr;
+  }
+  
   //      Load a JSON file from specified URL
   function JSONLoader(url) {
       var data;

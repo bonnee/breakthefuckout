@@ -15,7 +15,7 @@ function init() {
       height,
       { view: document.getElementById("game-canvas") }
     );
-    level = new Level();
+	level = new Level();
 
     LoadBricks();
     LoadObjects();
@@ -23,7 +23,7 @@ function init() {
     
     selectedBrick = new PIXI.Sprite();
     //SelectBrick("eraser.png");
-    stage.addChild(selectedBrick);
+    stage.addChild(selectedBrick, selectedBrick.position);
 
     rect = document.getElementById("game-canvas").getBoundingClientRect();
     requestAnimationFrame(Update);
@@ -31,23 +31,17 @@ function init() {
 
 PIXI.interaction.InteractionManager.prototype.onMouseMove = function (event) {
     var partX = event.clientX - rect.left;
-    var partY = event.clientY - rect.top / 2;
+    var partY = event.clientY - rect.top;
     selectedBrick.position.x = Math.floor(partX / 46) * 46;
     selectedBrick.position.y = Math.floor(partY / 24) * 24;
     requestAnimationFrame(Update);
 }
 
 PIXI.interaction.InteractionManager.prototype.onMouseDown = function (event) {
-  if(selectedBrick.color != "eraser.png"){
-    bricks.push({ x: selectedBrick.position.x, y: selectedBrick.position.y, width: selectedBrick.width, height: selectedBrick.height, sprite: selectedBrick, color: selectedBrick.color });
-    var s = new PIXI.Sprite(PIXI.Texture.fromImage("../../images/bricks/" + selectedBrick.color));
-    s.position.x = selectedBrick.position.x;
-    s.position.y = selectedBrick.position.y;
-    //s.width = selectedBrick.width;
-    //s.height = selectedBrick.height;
-    s.color = selectedBrick.color;
-    stage.addChild(s);
-    requestAnimationFrame(Update);
+  if(selectedBrick.color != "eraser.png") {    
+	level.addBrick(selectedBrick);
+    stage.addChild(selectedBrick);
+	requestAnimationFrame(Update);
   } else {
     for(var i = bricks.length -1 ; i >= 0; i--) {
       var s = bricks[i];
@@ -78,7 +72,6 @@ function LoadObjects() {
         s = new PIXI.Sprite(t);
         s.position.x = b.x;
         s.position.y = b.y;
-	s.color=b.color;
         stage.addChild(s);
         b.sprite = s;
     }
