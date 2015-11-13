@@ -3,7 +3,7 @@ function Level() {
   this.title;
   this.bricks;
 
-  this.load= function(n) {
+  this.load = function(n) {
       var tmp = JSONLoader("levels/layouts/" + n + ".json");
       title = tmp.title;
       bricks = tmp.bricks;
@@ -32,7 +32,7 @@ function Level() {
       return data;
   }
 
-  function list() {
+  this.list = function() {
     $.ajax({
         url: "layouts/",
         success: function (data) {
