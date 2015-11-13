@@ -19,7 +19,7 @@ function init() {
 
     LoadBricks();
     LoadObjects();
-    document.getElementById('score').innerHTML = "Level: " + levName;
+    document.getElementById('score').innerHTML = "Level: " + level.name;
     
     selectedBrick = new PIXI.Sprite();
     //SelectBrick("eraser.png");
