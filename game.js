@@ -39,8 +39,7 @@ var width = 919, height = 768;
 var logging = false;     //      Only for debug messages
 
 function init() {
-    if (logging)
-        console.log("game.js loaded");
+    console.log("game.js loaded");
     stage = new PIXI.Stage(0x66FF99);
     renderer = PIXI.autoDetectRenderer(
       width,
@@ -49,6 +48,7 @@ function init() {
     );
 
     level = new Level();
+
     LoadObjects();
     updateLives();
     update();
@@ -58,14 +58,14 @@ function init() {
 function LoadObjects() {
     level.load(1);
     var i, l;
-    for (i = 0, l = level.bricks.length; i < l; i++) {
-        var b = level.bricks[i];
+    for (i = 0, l = bricks.length; i < l; i++) {
+        var b = bricks[i];
         b.x = parseInt(b.x);
         b.y = parseInt(b.y);
         b.width = parseInt(b.width);
         b.height = parseInt(b.height);
         b.score = parseInt(b.score);
-        var wbTexture = PIXI.Texture.fromImage("../images/level.bricks/" + b.color);
+        var wbTexture = PIXI.Texture.fromImage("../images/bricks/" + b.color);
         wb = new PIXI.Sprite(wbTexture);
         wb.position.x = b.x;
         wb.position.y = b.y;
@@ -232,7 +232,7 @@ function update() {
 
 function end() {
     running = false;
-    if (level.bricks.length<=0)
+    if (bricks.length<=0)
         var endText = new PIXI.Text("You won but... The game is over man", { font: "50px Arial", fill: "white" });
     else
         var endText = new PIXI.Text("Game Over :(", { font: "50px Arial", fill: "white" });
@@ -251,10 +251,10 @@ function CheckCollisions() {
         if (logging)
             console.log("Collision with pad");
     }
-    for (var i = 0; i < level.bricks.length; i++) {
-        var b = level.bricks[i];
+    for (var i = 0; i < bricks.length; i++) {
+        var b = bricks[i];
         if ((ball.position.y <= b.y + b.height && ball.position.y + ball.height >= b.y) && (ball.position.x <= b.x + b.width && ball.position.x + ball.width >= b.x)) {
-            level.bricks.splice(i, 1);
+            bricks.splice(i, 1);
             stage.removeChild(b.sprite);
             score += b.score;
             document.getElementById("score").innerHTML = score;
@@ -295,7 +295,7 @@ function CheckCollisions() {
         waitingForEnter = true;
     }
 
-    if (level.bricks.length == 0)
+    if (bricks.length == 0)
         over = true;
 
     if (collisionX)
