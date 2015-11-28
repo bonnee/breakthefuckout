@@ -68,7 +68,7 @@ function LoadObjects() {
         b.width = parseInt(b.width);
         b.height = parseInt(b.height);
         b.score = parseInt(b.score);
-        var t = PIXI.Texture.fromImage("../../images/bricks/" + b.color);
+        var t = PIXI.Texture.fromImage("../images/bricks/" + b.color);
         s = new PIXI.Sprite(t);
         s.position.x = b.x;
         s.position.y = b.y;
@@ -113,14 +113,14 @@ function JSONLoader(url) {
 
 function LoadBricks() {
     $.ajax({
-        url: "../../images/bricks/",
+        url: "../images/bricks/",
         success: function (data) {
             $(data).find("a:contains(.png)").each(function () {
                 var image = $(this).attr("href");
-                document.getElementById('tips').innerHTML += '<img id="' + image + '" onclick="SelectBrick(\'' + image + '\')" class="life" src="../../images/bricks/' + image + '"/>';
+                document.getElementById('tips').innerHTML += '<img id="' + image + '" onclick="SelectBrick(\'' + image + '\')" class="life" src="../images/bricks/' + image + '"/>';
                 console.log(image);
             });
-            document.getElementById('tips').innerHTML += '<img id="eraser.png" onclick="SelectBrick(\'eraser.png\')" class="life" src="../../images/eraser.png"/>';
+            document.getElementById('tips').innerHTML += '<img id="eraser.png" onclick="SelectBrick(\'eraser.png\')" class="life" src="../images/eraser.png"/>';
         }
     });
 }
