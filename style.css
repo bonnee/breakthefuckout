@@ -9,7 +9,7 @@ body {
     padding: 0;
     background-color: #000;
     color: #fff;
-    font-family: GameOver, sans-serif;
+    font-family: GameOver ,bold;
     font-size: 60px;
     line-height: 45px;
 }
@@ -83,6 +83,9 @@ a:hover {
 }
 
 .life {
+    display:inline-block;
+    font-size:.5em;
+    line-height: .7em;
     margin: 10px 5px;
 }
 

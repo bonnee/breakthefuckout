@@ -7,7 +7,7 @@ TODO:
 5. Difficulty settings (ball speed);
 */
 
-var stage;
+var container;
 var ball;
 var ballSpdX;
 var ballSpdY;
@@ -40,12 +40,12 @@ var logging = false;     //      Only for debug messages
 
 function init() {
     console.log("game.js loaded");
-    stage = new PIXI.Stage(0x66FF99);
-    renderer = PIXI.autoDetectRenderer(
-      width,
-      height,
-      { view: document.getElementById("game-canvas") }
-    );
+
+    renderer = PIXI.autoDetectRenderer(width, height);
+
+    container = new PIXI.Container();
+
+    document.getElementById("renderer").appendChild(renderer.view);
 
     level = new Level();
 
@@ -69,20 +69,20 @@ function LoadObjects() {
         wb = new PIXI.Sprite(wbTexture);
         wb.position.x = b.x;
         wb.position.y = b.y;
-        stage.addChild(wb);
+        container.addChild(wb);
         b.sprite = wb;
     }
 
     //create pad
     var padTexture = PIXI.Texture.fromImage("../images/pad.png");
     pad = new PIXI.Sprite(padTexture);
-    stage.addChild(pad);
+    container.addChild(pad);
     pad.height = 23;
 
     //create ball
     var ballTexture = PIXI.Texture.fromImage("../images/ball.png");
     ball = new PIXI.Sprite(ballTexture);
-    stage.addChild(ball);
+    container.addChild(ball);
     ball.height = 23;
 
     Reset();
@@ -220,7 +220,7 @@ function update() {
                 pad.position.x = width - pad.width;
         }
 
-        renderer.render(stage);
+        renderer.render(container);
 
         if (over) {
             requestAnimationFrame(end);
@@ -236,10 +236,10 @@ function end() {
         var endText = new PIXI.Text("You won but... The game is over man", { font: "50px Arial", fill: "white" });
     else
         var endText = new PIXI.Text("Game Over :(", { font: "50px Arial", fill: "white" });
-    stage.addChild(endText);
+    container.addChild(endText);
     endText.x = width / 2 - endText.width / 2;
     endText.y = height / 2 + 75;
-    renderer.render(stage);
+    renderer.render(container);
 }
 
 function CheckCollisions() {
@@ -255,7 +255,7 @@ function CheckCollisions() {
         var b = bricks[i];
         if ((ball.position.y <= b.y + b.height && ball.position.y + ball.height >= b.y) && (ball.position.x <= b.x + b.width && ball.position.x + ball.width >= b.x)) {
             bricks.splice(i, 1);
-            stage.removeChild(b.sprite);
+            container.removeChild(b.sprite);
             score += b.score;
             document.getElementById("score").innerHTML = score;
             collisionY = true;
