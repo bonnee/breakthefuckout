@@ -1,4 +1,4 @@
-var stage;
+var container;
 var selectedBrick;
 var rect;
 var level;
@@ -9,21 +9,21 @@ var logging = true;     //      Only for debug messages
 function init() {
     if (logging)
         console.log("creator.js loaded");
-    stage = new PIXI.Stage(0x66FF99);
-    renderer = PIXI.autoDetectRenderer(
-      width,
-      height,
-      { view: document.getElementById("game-canvas") }
-    );
-	level = new Level();
+    renderer = PIXI.autoDetectRenderer(width, height);
+
+    container = new PIXI.Container();
+
+    document.getElementById("renderer").appendChild(renderer.view);
+
+    level = new Level();
 
     LoadBricks();
     LoadObjects();
-    document.getElementById('score').innerHTML = "Level: " + level.name;
+    document.getElementById('score').innerHTML = title;
     
     selectedBrick = new PIXI.Sprite();
     //SelectBrick("eraser.png");
-    stage.addChild(selectedBrick, selectedBrick.position);
+    container.addChild(selectedBrick, selectedBrick.position);
 
     rect = document.getElementById("game-canvas").getBoundingClientRect();
     requestAnimationFrame(Update);
@@ -39,8 +39,7 @@ PIXI.interaction.InteractionManager.prototype.onMouseMove = function (event) {
 
 PIXI.interaction.InteractionManager.prototype.onMouseDown = function (event) {
   if(selectedBrick.color != "eraser.png") {    
-	level.addBrick(selectedBrick);
-    stage.addChild(selectedBrick);
+	add(selectedBrick);
 	requestAnimationFrame(Update);
   } else {
     for(var i = bricks.length -1 ; i >= 0; i--) {
@@ -48,7 +47,7 @@ PIXI.interaction.InteractionManager.prototype.onMouseDown = function (event) {
       console.log("X: "+selectedBrick.position.x+" - "+s.x+"\nY: "+selectedBrick.position.y+" - "+s.y);
 
       if(s.x == selectedBrick.position.x && s.y == selectedBrick.position.y) {
-        stage.removeChild(s.sprite);
+        container.removeChild(s.sprite);
         bricks.splice(i, 1);
         console.log("BOOM");
         break;
@@ -56,6 +55,11 @@ PIXI.interaction.InteractionManager.prototype.onMouseDown = function (event) {
     }
     requestAnimationFrame(Update);
   }
+}
+
+function add(b) {
+	bricks.push(b);
+        container.addChild(b);
 }
 
 function LoadObjects() {
@@ -68,12 +72,7 @@ function LoadObjects() {
         b.width = parseInt(b.width);
         b.height = parseInt(b.height);
         b.score = parseInt(b.score);
-        var t = PIXI.Texture.fromImage("../images/bricks/" + b.color);
-        s = new PIXI.Sprite(t);
-        s.position.x = b.x;
-        s.position.y = b.y;
-        stage.addChild(s);
-        b.sprite = s;
+	add(b);
     }
     var graphics = new PIXI.Graphics().lineStyle(1, 0x808080);
     for(i = 1;i < width / 46; i++) {
@@ -84,31 +83,9 @@ function LoadObjects() {
         graphics.moveTo(0, (i * 24)-1);
         graphics.lineTo(width, (i * 24)-1);
     }
-    stage.addChild(graphics);
+    container.addChild(graphics);
 
     requestAnimationFrame(Update);
-}
-
-//      Load a JSON file from specified URL
-function JSONLoader(url) {
-    var data;
-    request = new XMLHttpRequest();
-    request.open('GET', url, false);
-
-    request.onload = function () {
-        if (request.status >= 200 && request.status < 400) {
-            data = JSON.parse(request.responseText);
-        } else {
-            if (logging)
-                console.log("Error loading bricks placement");
-        }
-    };
-
-    request.onerror = function () {
-    };
-
-    request.send();
-    return data;
 }
 
 function LoadBricks() {
@@ -117,26 +94,26 @@ function LoadBricks() {
         success: function (data) {
             $(data).find("a:contains(.png)").each(function () {
                 var image = $(this).attr("href");
-                document.getElementById('tips').innerHTML += '<img id="' + image + '" onclick="SelectBrick(\'' + image + '\')" class="life" src="../images/bricks/' + image + '"/>';
+                document.getElementById('tips').innerHTML += '<div style="background:url(../images/bricks/'+image+') top center no-repeat;" id="' + image + '" onclick="SelectBrick(\'' + image + '\')" class="life" src="../images/bricks/' + image + '">123</div>';
                 console.log(image);
             });
-            document.getElementById('tips').innerHTML += '<img id="eraser.png" onclick="SelectBrick(\'eraser.png\')" class="life" src="../images/eraser.png"/>';
+            document.getElementById('tips').innerHTML += '<div id="eraser.png" onclick="SelectBrick(\'eraser.png\')" class="life" style="background:url(../images/eraser.png) top center no-repeat;">.</div>';
         }
     });
 }
 
 
 function Update() {
-    renderer.render(stage);
+    renderer.render(container);
 }
 
 function SelectBrick(name) {
     if (logging)
         console.log(name + " selected");
 
-    stage.removeChild(selectedBrick);
+    container.removeChild(selectedBrick);
     selectedBrick = new PIXI.Sprite(PIXI.Texture.fromImage(document.getElementById(name).src));
     selectedBrick.color = name;
-    stage.addChild(selectedBrick);
+    container.addChild(selectedBrick);
     requestAnimationFrame(Update);
 }
