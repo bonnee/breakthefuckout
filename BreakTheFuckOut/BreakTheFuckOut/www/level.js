@@ -3,7 +3,7 @@ function Level() {
   this.title;
   this.bricks;
 
-  this.load = function(n) {
+  this.load = function (n) {
       var tmp = JSONLoader("levels/layouts/" + n + ".json");
       title = tmp.title;
       bricks = tmp.bricks;
