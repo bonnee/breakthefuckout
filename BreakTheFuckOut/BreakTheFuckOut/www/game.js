@@ -65,7 +65,7 @@ function LoadObjects() {
         b.width = parseInt(b.width);
         b.height = parseInt(b.height);
         b.score = parseInt(b.score);
-        var wbTexture = PIXI.Texture.fromImage("../resources/bricks/" + b.color);
+        var wbTexture = PIXI.Texture.fromImage("resources/bricks/" + b.color);
         wb = new PIXI.Sprite(wbTexture);
         wb.position.x = b.x;
         wb.position.y = b.y;
@@ -74,13 +74,13 @@ function LoadObjects() {
     }
 
     //create pad
-    var padTexture = PIXI.Texture.fromImage("../resources/pad.png");
+    var padTexture = PIXI.Texture.fromImage("resources/pad.png");
     pad = new PIXI.Sprite(padTexture);
     container.addChild(pad);
     pad.height = 23;
 
     //create ball
-    var ballTexture = PIXI.Texture.fromImage("../resources/ball.png");
+    var ballTexture = PIXI.Texture.fromImage("resources/ball.png");
     ball = new PIXI.Sprite(ballTexture);
     container.addChild(ball);
     ball.height = 23;
@@ -312,7 +312,7 @@ function CheckCollisions() {
 function updateLives() {
     document.getElementById("lives").innerHTML = "";
     for (var i = 0; i < lives; i++) {
-        document.getElementById("lives").innerHTML += '<img class="life" src="../resources/ball.png" />';
+        document.getElementById("lives").innerHTML += '<img class="life" src="resources/ball.png" />';
     }
 
     if (logging)
