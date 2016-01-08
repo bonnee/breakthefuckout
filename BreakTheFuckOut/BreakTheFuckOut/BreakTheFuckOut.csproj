@@ -69,8 +69,10 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="images\ball.png" />
+    <Content Include="images\eraser.png" />
+    <Content Include="images\pad.png" />
     <Content Include="packages.config" />
-    <Content Include="images\bg\bg.xcf" />
     <Content Include="images\game_over.otf" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -78,17 +80,15 @@
     <None Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
+    <Content Include="www\level.js" />
     <Content Include="www\levels\1.json" />
     <Content Include="www\levels\2.json" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="images\bg\bg.png" />
     <Content Include="Web.config" />
     <Content Include="www\game.js" />
     <Content Include="www\index.html" />
-    <Content Include="www\levels\creator.html" />
-    <Content Include="www\levels\creator.js" />
-    <Content Include="www\levels\jquery-2.1.4.min.js" />
+    <Content Include="www\jquery-2.1.4.min.js" />
     <Content Include="www\pixi.js" />
     <Content Include="www\style.css" />
   </ItemGroup>
