@@ -253,6 +253,9 @@ function CheckCollisions() {
     }
     for (var i = 0; i < bricks.length; i++) {
         var b = bricks[i];
+        var blx = ball.position.x + ballSpdX;
+        var bly = ball.position.y + ballSpdY;
+        /*
         if ((ball.position.y <= b.y + b.height && ball.position.y + ball.height >= b.y) && (ball.position.x <= b.x + b.width && ball.position.x + ball.width >= b.x)) {
             bricks.splice(i, 1);
             container.removeChild(b.sprite);
@@ -261,6 +264,24 @@ function CheckCollisions() {
             collisionY = true;
             if (logging)
                 console.log("Collision with block " + i);
+        }*/
+        var hBounds = ball.position.x + ball.width >= b.x && ball.position.x <= b.x + b.width;
+        var vBounds = ball.position.y + ball.height >= b.y && ball.position.y <= b.height;
+
+        if ((bly <= b.y + b.height) || (bly + ball.height >= b.y) && hBounds) {
+            bricks.splice(i, 1);
+            container.removeChild(b.sprite);
+            score += b.score;
+            document.getElementById("score").innerHTML = score;
+            collisionY = true;
+        }
+
+        if ((blx + ball.width >= b.x && blx <= ball.x + ball.width) && vBounds) {
+            bricks.splice(i, 1);
+            container.removeChild(b.sprite);
+            score += b.score;
+            document.getElementById("score").innerHTML = score;
+            collisionX = true;
         }
     }
 
