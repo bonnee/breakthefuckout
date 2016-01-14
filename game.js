@@ -268,15 +268,14 @@ function CheckCollisions() {
         var hBounds = ball.position.x + ball.width >= b.x && ball.position.x <= b.x + b.width;
         var vBounds = ball.position.y + ball.height >= b.y && ball.position.y <= b.height;
 
-        if ((bly <= b.y + b.height) || (bly + ball.height >= b.y) && hBounds) {
+        if (hBounds && (bly <= b.y + b.height && bly + ball.height >= b.y)) {
             bricks.splice(i, 1);
             container.removeChild(b.sprite);
             score += b.score;
             document.getElementById("score").innerHTML = score;
             collisionY = true;
         }
-
-        if ((blx + ball.width >= b.x && blx <= ball.x + ball.width) && vBounds) {
+        if (vBounds && (blx + ball.width >= b.x && blx)) {
             bricks.splice(i, 1);
             container.removeChild(b.sprite);
             score += b.score;
