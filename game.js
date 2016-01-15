@@ -267,13 +267,11 @@ function CheckCollisions() {
         var hBounds = ball.position.x + ball.width > b.x && ball.position.x < b.x + b.width;
         var vBounds = ball.position.y + ball.height > b.y && ball.position.y < b.y + b.height;
 
+        var boom = false;
+
         if (vBounds && ((blx + ball.width >= b.x && blx < b.x + b.width / 2)                   // Left Collision
                         || (blx <= b.x + b.width && blx + ball.width > b.x + b.width / 2))) {   // Right Collision
-
-            bricks.splice(i, 1);
-            container.removeChild(b.sprite);
-            score += b.score;
-            document.getElementById("score").innerHTML = score;
+            boom = true;
             collisionX = true;
             if (logging)
                 console.log("hHit");
@@ -281,14 +279,13 @@ function CheckCollisions() {
         if (hBounds && ((bly + ball.height >= b.y && bly < b.y + b.width / 2)                  // Top Collision
             || (bly + ball.height > b.y && bly <= b.y + b.height / 2))) {                      // Bottom Collision
 
-            bricks.splice(i, 1);
-            container.removeChild(b.sprite);
-            score += b.score;
-            document.getElementById("score").innerHTML = score;
+            boom = true;
             collisionY = true;
             if (logging)
                 console.log("vHit");
         }
+        if (boom)
+            hit(i);
     }
 
     if (blx + ball.width >= width) {
@@ -331,6 +328,13 @@ function CheckCollisions() {
     }
     if (lives <= 0)
         over = true;
+}
+
+function hit(i) {
+    container.removeChild(bricks[i].sprite);
+    bricks.splice(i, 1);
+    score += bricks[i].score;
+    document.getElementById("score").innerHTML = score;
 }
 
 function playAudio() {
