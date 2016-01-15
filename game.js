@@ -19,9 +19,8 @@ var divisorCollision = 5;
 var lives = 3;
 var level;
 
-var sound = new Howl({
-    urls: ["resources/audiofiles/collision.wav"]
-});
+var brickSnd = new Howl({ urls: ["resources/audiofiles/brick.wav"] });
+var wallSnd = new Howl({ urls: ["resources/audiofiles/wall.wav"] });
 
 var movePadDefault = 10;
 var movePadIncreaser = 1.1;  // set the pixel increase every time the pad is moving. giving the pad acceleration while key that move pad is pressed
@@ -249,14 +248,15 @@ function end() {
 }
 
 function CheckCollisions() {
-    var collisionX = false, collisionY = false;
+    var collisionX = false, collisionY = false, isBrick = true;
     var blx = ball.position.x + ballSpdX;
     var bly = ball.position.y + ballSpdY;
 
     if (ballSpdY > 0 && ball.position.y + ball.height >= pad.position.y && (ball.position.x + ball.width > pad.position.x && ball.position.x < pad.position.x + pad.width)) {
         collisionY = true;
         ballSpdX = -((pad.position.x + (pad.width / 2)) - (ball.position.x + (ball.width / 2))) / divisorCollision;
-        
+        isBrick = false;
+
         if (logging)
             console.log("Collision with pad");
     }
@@ -290,18 +290,21 @@ function CheckCollisions() {
 
     if (blx + ball.width >= width) {
         collisionX = true;
+        isBrick = false;
         if (logging)
             console.log("Collision with right bound");
     }
 
     if (blx <= 0) {
         collisionX = true;
+        isBrick = false;
         if (logging)
             console.log("Collision with left bound");
     }
 
     if (bly <= 0) {
         collisionY = true;
+        isBrick = false;
         if (logging)
             console.log("Collision with top bound");
     }
@@ -318,16 +321,22 @@ function CheckCollisions() {
     if (bricks.length == 0)
         over = true;
 
+    if (collisionX || collisionY) {
+        if (isBrick)
+            brickSnd.play();
+        else
+            wallSnd.play();
+    }
+
     if (collisionX) {
         ballSpdX = -ballSpdX;
-        playAudio();
     }
     if (collisionY) {
         ballSpdY = -ballSpdY;
-        playAudio();
     }
     if (lives <= 0)
         over = true;
+
 }
 
 function hit(i) {
@@ -335,10 +344,6 @@ function hit(i) {
     bricks.splice(i, 1);
     score += bricks[i].score;
     document.getElementById("score").innerHTML = score;
-}
-
-function playAudio() {
-    sound.play();
 }
 
 function updateLives() {
