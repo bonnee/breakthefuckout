@@ -1,6 +1,11 @@
 # BreakTheFuckOut
 The Atari classic Breakout written in JavaScript and WebGL through pixi.js library
 
+BreakTheFuckOut link to repository: https://github.com/SuperBonny/breakthefuckout
+BreakTheFuckOut LICENSE: https://raw.githubusercontent.com/SuperBonny/breakthefuckout/master/LICENSE
+
+
+
 PIXI.JS link to repository: https://github.com/pixijs/pixi.js
 
 PIXI.JS LICENSE: 
