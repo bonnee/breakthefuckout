@@ -21,6 +21,7 @@ var level;
 
 var brickSnd = new Howl({ urls: ["resources/audiofiles/brick.wav"] });
 var wallSnd = new Howl({ urls: ["resources/audiofiles/wall.wav"] });
+var overSnd = new Howl({ urls: ["resources/audiofiles/over.mp3"] });
 
 var movePadDefault = 10;
 var movePadIncreaser = 1.1;  // set the pixel increase every time the pad is moving. giving the pad acceleration while key that move pad is pressed
@@ -237,10 +238,12 @@ function update() {
 
 function end() {
     running = false;
-    if (bricks.length<=0)
+    if (bricks.length <= 0)
         var endText = new PIXI.Text("You won but... The game is over man", { font: "50px Arial", fill: "white" });
-    else
-        var endText = new PIXI.Text("Game Over :(", { font: "50px Arial", fill: "white" });
+    else {
+        overSnd.play();
+        var endText = new PIXI.Text("Game Over :(", { font: "50px Arial", fill: "white" }); 
+    }
     container.addChild(endText);
     endText.x = width / 2 - endText.width / 2;
     endText.y = height / 2 + 75;
