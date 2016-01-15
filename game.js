@@ -200,9 +200,11 @@ function Stop() {
 
 function update() {
     if (running) {
+        
+        CheckCollisions();
         ball.position.x += ballSpdX;
         ball.position.y += ballSpdY;
-        CheckCollisions();
+        
 
         if (aPressed) {
             if (pad.position.x - movePad > 0) {
@@ -244,6 +246,8 @@ function end() {
 
 function CheckCollisions() {
     var collisionX = false, collisionY = false;
+    var blx = ball.position.x + ballSpdX;
+    var bly = ball.position.y + ballSpdY;
 
     if (ballSpdY > 0 && ball.position.y + ball.height >= pad.position.y && (ball.position.x + ball.width > pad.position.x && ball.position.x < pad.position.x + pad.width)) {
         collisionY = true;
@@ -251,63 +255,59 @@ function CheckCollisions() {
         if (logging)
             console.log("Collision with pad");
     }
+
     for (var i = 0; i < bricks.length; i++) {
         var b = bricks[i];
-        var blx = ball.position.x + ballSpdX;
-        var bly = ball.position.y + ballSpdY;
-        /*
-        if ((ball.position.y <= b.y + b.height && ball.position.y + ball.height >= b.y) && (ball.position.x <= b.x + b.width && ball.position.x + ball.width >= b.x)) {
+
+        var hBounds = ball.position.x + ball.width > b.x && ball.position.x < b.x + b.width;
+        var vBounds = ball.position.y + ball.height > b.y && ball.position.y < b.y + b.height;
+
+        if (vBounds && ((blx + ball.width >= b.x && blx < b.x + b.width / 2)                   // Left Collision
+                        || (blx <= b.x + b.width && blx + ball.width > b.x + b.width / 2))) {   // Right Collision
+
+            bricks.splice(i, 1);
+            container.removeChild(b.sprite);
+            score += b.score;
+            document.getElementById("score").innerHTML = score;
+            collisionX = true;
+            if (logging)
+                console.log("hHit");
+        }
+        if (hBounds && ((bly + ball.height >= b.y && bly < b.y + b.width / 2)                  // Top Collision
+            || (bly + ball.height > b.y && bly <= b.y + b.height / 2))) {                      // Bottom Collision
+
             bricks.splice(i, 1);
             container.removeChild(b.sprite);
             score += b.score;
             document.getElementById("score").innerHTML = score;
             collisionY = true;
             if (logging)
-                console.log("Collision with block " + i);
-        }*/
-        var hBounds = ball.position.x + ball.width > b.x && ball.position.x < b.x + b.width;
-        var vBounds = ball.position.y + ball.height > b.y && ball.position.y < b.y + b.height;
-
-        if (vBounds && ((blx + ball.width >= b.x && blx < b.x + b.width / 2) ||
-                        (blx <= b.x + b.width && blx + ball.width > b.x + b.width /2))) {
-            hit(i, b);
-            console.log("hHit");
-            collisionX = true;
-        }
-        if (hBounds && ((bly + ball.height >= b.y && bly < b.y + b.width / 2) ||
-            (bly + ball.height > b.y && bly <= b.y + b.height / 2))) {
-            hit(i, b);
-            console.log("vHit");
-            collisionY = true;
+                console.log("vHit");
         }
     }
 
-    if (ball.position.x + ball.width >= width) {
-        ball.position.x = width - ball.width;
+    if (blx + ball.width >= width) {
         collisionX = true;
         if (logging)
             console.log("Collision with right bound");
     }
 
-    if (ball.position.x <= 0) {
-        ball.position.x = 0;
+    if (blx <= 0) {
         collisionX = true;
         if (logging)
             console.log("Collision with left bound");
     }
 
-    if (ball.position.y <= 0) {
-        ball.position.y = 0;
+    if (bly <= 0) {
         collisionY = true;
         if (logging)
             console.log("Collision with top bound");
     }
 
-    if (ball.position.y >= height - ball.height) {
-        ball.position.y = height - ball.height;
+    if (bly >= height - ball.height) {
         lives--;
         Stop();
-        
+
         updateLives();
 
         waitingForEnter = true;
@@ -320,18 +320,8 @@ function CheckCollisions() {
         ballSpdX = -ballSpdX;
     if (collisionY)
         ballSpdY = -ballSpdY;
-    if (lives <= 0) {
+    if (lives <= 0)
         over = true;
-        if (logging)
-            console.log("Game Over");
-    }
-}
-
-function hit(index, brick) {
-    bricks.splice(index, 1);
-    container.removeChild(brick.sprite);
-    score += brick.score;
-    document.getElementById("score").innerHTML = score;
 }
 
 function updateLives() {
