@@ -265,22 +265,20 @@ function CheckCollisions() {
             if (logging)
                 console.log("Collision with block " + i);
         }*/
-        var hBounds = ball.position.x + ball.width >= b.x && ball.position.x <= b.x + b.width;
-        var vBounds = ball.position.y + ball.height >= b.y && ball.position.y <= b.height;
+        var hBounds = ball.position.x + ball.width > b.x && ball.position.x < b.x + b.width;
+        var vBounds = ball.position.y + ball.height > b.y && ball.position.y < b.y + b.height;
 
-        if (hBounds && (bly <= b.y + b.height && bly + ball.height >= b.y)) {
-            bricks.splice(i, 1);
-            container.removeChild(b.sprite);
-            score += b.score;
-            document.getElementById("score").innerHTML = score;
-            collisionY = true;
-        }
-        if (vBounds && (blx + ball.width >= b.x && blx)) {
-            bricks.splice(i, 1);
-            container.removeChild(b.sprite);
-            score += b.score;
-            document.getElementById("score").innerHTML = score;
+        if (vBounds && ((blx + ball.width >= b.x && blx < b.x + b.width / 2) ||
+                        (blx <= b.x + b.width && blx + ball.width > b.x + b.width /2))) {
+            hit(i, b);
+            console.log("hHit");
             collisionX = true;
+        }
+        if (hBounds && ((bly + ball.height >= b.y && bly < b.y + b.width / 2) ||
+            (bly + ball.height > b.y && bly <= b.y + b.height / 2))) {
+            hit(i, b);
+            console.log("vHit");
+            collisionY = true;
         }
     }
 
@@ -327,6 +325,13 @@ function CheckCollisions() {
         if (logging)
             console.log("Game Over");
     }
+}
+
+function hit(index, brick) {
+    bricks.splice(index, 1);
+    container.removeChild(brick.sprite);
+    score += brick.score;
+    document.getElementById("score").innerHTML = score;
 }
 
 function updateLives() {
