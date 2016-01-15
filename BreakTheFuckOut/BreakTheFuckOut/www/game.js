@@ -18,6 +18,11 @@ var score = 0;
 var divisorCollision = 5;
 var lives = 3;
 var level;
+var audioCollisionPad = new Audio("resources/audio/collision.mp3");
+
+var sound = new Howl({
+    urls: ["resources/audio/collision.mp3"]
+});
 
 var movePadDefault = 10;
 var movePadIncreaser = 1.1;  // set the pixel increase every time the pad is moving. giving the pad acceleration while key that move pad is pressed
@@ -252,6 +257,7 @@ function CheckCollisions() {
     if (ballSpdY > 0 && ball.position.y + ball.height >= pad.position.y && (ball.position.x + ball.width > pad.position.x && ball.position.x < pad.position.x + pad.width)) {
         collisionY = true;
         ballSpdX = -((pad.position.x + (pad.width / 2)) - (ball.position.x + (ball.width / 2))) / divisorCollision;
+        
         if (logging)
             console.log("Collision with pad");
     }
@@ -316,12 +322,20 @@ function CheckCollisions() {
     if (bricks.length == 0)
         over = true;
 
-    if (collisionX)
+    if (collisionX) {
         ballSpdX = -ballSpdX;
-    if (collisionY)
+        playAudio();
+    }
+    if (collisionY) {
         ballSpdY = -ballSpdY;
+        playAudio();
+    }
     if (lives <= 0)
         over = true;
+}
+
+function playAudio() {
+    sound.play();
 }
 
 function updateLives() {
