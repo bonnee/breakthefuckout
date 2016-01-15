@@ -18,7 +18,6 @@ var score = 0;
 var divisorCollision = 5;
 var lives = 3;
 var level;
-var audioCollisionPad = new Audio("resources/audio/collision.mp3");
 
 var sound = new Howl({
     urls: ["resources/audio/collision.mp3"]
