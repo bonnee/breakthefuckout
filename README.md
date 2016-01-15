@@ -1,10 +1,9 @@
 # BreakTheFuckOut
 The Atari classic Breakout written in JavaScript and WebGL through pixi.js library
 
-PIXI.JS:
-link pixi.js repository: https://github.com/pixijs/pixi.js
+PIXI.JS link to repository: https://github.com/pixijs/pixi.js
 
-LICENSE: 
+PIXI.JS LICENSE: 
 The MIT License
 
 Copyright (c) 2013-2015 Mathew Groves
@@ -21,10 +20,9 @@ all copies or substantial portions of the Software.
 
 
 
-HOWLER.JS
-link howler.js repository: https://github.com/goldfire/howler.js
+HOWLER.JS link to repository: https://github.com/goldfire/howler.js
 
-LICENSE:
+HOWLER.JS LICENSE:
 Copyright (c) 2013-2014 James Simpson and GoldFire Studios, Inc.
 
 Permission is hereby granted, free of charge, to any person obtaining
