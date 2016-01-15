@@ -20,7 +20,7 @@ var lives = 3;
 var level;
 
 var sound = new Howl({
-    urls: ["resources/audio/collision.mp3"]
+    urls: ["resources/audiofiles/collision.mp3"]
 });
 
 var movePadDefault = 10;
