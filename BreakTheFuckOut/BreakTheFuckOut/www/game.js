@@ -45,7 +45,6 @@ var aPressed = false;
 var dPressed = false;
 var enterPressed = false;
 var waitingForEnter = false;
-var scoreWhite = true;
 
 var width = 919, height = 768;
 var logging = false;     //      Only for debug messages
