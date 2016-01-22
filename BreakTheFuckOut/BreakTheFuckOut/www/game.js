@@ -88,6 +88,7 @@ function LoadObjects() {
     pad = new PIXI.Sprite(padTexture);
     container.addChild(pad);
     pad.height = 23;
+    pad.position.x = width / 2 - pad.width / 2;
 
     //create ball
     var ballTexture = PIXI.Texture.fromImage("resources/ball.png");
@@ -209,35 +210,34 @@ function Stop() {
 }
 
 function update() {
+    if (aPressed) {
+        if (pad.position.x - movePad > 0) {
+            pad.position.x -= movePad;
+            movePad += movePadIncreaser;
+        } else
+            pad.position.x = 0;
+    }
+    if (dPressed) {
+        if (pad.position.x + movePad < width - pad.width) {
+            pad.position.x += movePad;
+            movePad += movePadIncreaser;
+        }
+        else
+            pad.position.x = width - pad.width;
+    }
     if (running) {
-        
+
         CheckCollisions();
         ball.position.x += ballSpdX;
         ball.position.y += ballSpdY;
-        
 
-        if (aPressed) {
-            if (pad.position.x - movePad > 0) {
-                pad.position.x -= movePad;
-                movePad += movePadIncreaser;
-            } else
-                pad.position.x = 0;
-        }
-        if (dPressed) {
-            if (pad.position.x + movePad < width - pad.width) {
-                pad.position.x += movePad;
-                movePad += movePadIncreaser;
-            }
-            else
-                pad.position.x = width - pad.width;
-        }
-
+    }
         renderer.render(container);
 
         if (over) {
             requestAnimationFrame(end);
         }
-    }
+    
     if (!debugkey)
         requestAnimationFrame(update);
 }
@@ -260,31 +260,30 @@ function CheckCollisions() {
     var collisionX = false, collisionY = false, isBrick = true;
     var blx = ball.position.x + ballSpdX;
     var bly = ball.position.y + ballSpdY;
+    
+    var hBounds = ball.position.x + ball.width > pad.position.x && ball.position.x < pad.position.x + pad.width;
+    var vBounds = ball.position.y + ball.height > pad.position.y && ball.position.y < pad.position.y + pad.height;
 
-    if (ballSpdY > 0 && ball.position.y + ball.height >= pad.position.y && (ball.position.x + ball.width > pad.position.x && ball.position.x < pad.position.x + pad.width)) {
+
+    if (ballSpdY > 0 && hBounds && (ball.position.y + ball.height >= pad.position.y && ball.position.y < pad.position.y + pad.width / 2)) {
+
         collisionY = true;
         ballSpdX = -((pad.position.x + (pad.width / 2)) - (ball.position.x + (ball.width / 2))) / divisorCollision;
         isBrick = false;
-
         if (logging)
             console.log("Collision with pad");
     }
 
+
     for (var i = 0; i < bricks.length; i++) {
         var b = bricks[i];
 
-        var hBounds = ball.position.x + ball.width > b.x && ball.position.x < b.x + b.width;
-        var vBounds = ball.position.y + ball.height > b.y && ball.position.y < b.y + b.height;
+        hBounds = ball.position.x + ball.width > b.x && ball.position.x < b.x + b.width;
+        vBounds = ball.position.y + ball.height > b.y && ball.position.y < b.y + b.height;
 
         var boom = false;
 
-        if (vBounds && ((blx + ball.width >= b.x && blx < b.x + b.width / 2)                   // Left Collision
-                        || (blx <= b.x + b.width && blx + ball.width > b.x + b.width / 2))) {   // Right Collision
-            boom = true;
-            collisionX = true;
-            if (logging)
-                console.log("hHit");
-        }
+
         if (hBounds && ((bly + ball.height >= b.y && bly < b.y + b.width / 2)                  // Top Collision
             || (bly + ball.height > b.y && bly <= b.y + b.height / 2))) {                      // Bottom Collision
 
@@ -293,6 +292,15 @@ function CheckCollisions() {
             if (logging)
                 console.log("vHit");
         }
+
+        if (vBounds && ((blx + ball.width >= b.x && blx < b.x + b.width / 2)                   // Left Collision
+                    || (blx <= b.x + b.width && blx + ball.width > b.x + b.width / 2))) {      // Right Collision
+            boom = true;
+            collisionX = true;
+            if (logging)
+                console.log("hHit");
+        }
+
         if (boom)
             hit(i);
     }
@@ -318,7 +326,7 @@ function CheckCollisions() {
             console.log("Collision with top bound");
     }
 
-    if (bly >= height - ball.height) {
+    if (bly >= height) {
         lives--;
         Stop();
 
@@ -366,16 +374,13 @@ function updateLives() {
 }
 
 function Reset() {
-    //ballSpdX = 4;
-    //ballSpdY = -5;
     ballSpdX = random(-5, 6); //random slope
     ballSpdY = -5;
 
-    pad.position.x = width / 2 - pad.width / 2;
     pad.position.y = height - pad.height;
 
     ball.position.y = height - pad.height - ball.height;
-    ball.position.x = width / 2 - ball.width / 2;
+    ball.position.x = pad.position.x + pad.width / 2 - ball.width / 2;
 }
 
 /**
