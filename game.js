@@ -18,7 +18,6 @@ var score = 0;
 var divisorCollision = 5;
 var lives = 3;
 var level;
-<<<<<<< HEAD
 
 var brickSnd = new Howl({ urls: ["resources/audiofiles/brick.wav"] });
 var wallSnd = new Howl({ urls: ["resources/audiofiles/wall.wav"] });
@@ -29,7 +28,6 @@ var audioCollisionPad = new Audio("resources/audio/collision.wav");
 var sound = new Howl({
     urls: ["resources/audio/collision.wav"]
 });
->>>>>>> Change sound file
 
 var movePadDefault = 10;
 var movePadIncreaser = 1.1;  // set the pixel increase every time the pad is moving. giving the pad acceleration while key that move pad is pressed
