@@ -7,6 +7,7 @@
  |____/|_|  \___|\__,_|_|\_\_|  |_| |_|\___|_|   \__,_|\___|_|\_\\____/ \__,_|\__|
                                                                                   
                                                                                   */
+
 var container;
 var ball;
 var ballSpdX;
@@ -38,6 +39,7 @@ var aPressed = false;
 var dPressed = false;
 var enterPressed = false;
 var waitingForEnter = false;
+var scoreWhite = true;
 
 var width = 919, height = 768;
 var logging = false;     //      Only for debug messages
@@ -345,6 +347,7 @@ function CheckCollisions() {
 function hit(i) {
     score += bricks[i].score;
     document.getElementById("score").innerHTML = score;
+    scoreColor();
     container.removeChild(bricks[i].sprite);
     bricks.splice(i, 1);
 }
@@ -377,4 +380,16 @@ function Reset() {
  */
 function random(min, max) {
     return Math.random() * (max - min) + min;
+}
+
+function scoreColor() {
+    $("#score").animate({
+        color: "red"
+    }, 100);
+    console.log("Score color switched to red");
+
+    $("#score").animate({
+        color: "white"
+    }, 300);
+    console.log("Score color switched to black");
 }
