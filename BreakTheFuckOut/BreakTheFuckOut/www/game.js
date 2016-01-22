@@ -1,12 +1,12 @@
 /*
-TODO:
-1. Mouse / keyboard control pad settings;
-2. [DONE] Score managing:
-3. [DONE] Initial "Press [button] to start" splash screen;
-4. [NEARLY DONE] Level management via JSON files;
-5. Difficulty settings (ball speed);
-*/
-
+  ____                 _ _______ _          ______          _     ____        _   
+ |  _ \               | |__   __| |        |  ____|        | |   / __ \      | |  
+ | |_) |_ __ ___  __ _| | _| |  | |__   ___| |__ _   _  ___| | _| |  | |_   _| |_ 
+ |  _ <| '__/ _ \/ _` | |/ / |  | '_ \ / _ \  __| | | |/ __| |/ / |  | | | | | __|
+ | |_) | | |  __/ (_| |   <| |  | | | |  __/ |  | |_| | (__|   <| |__| | |_| | |_ 
+ |____/|_|  \___|\__,_|_|\_\_|  |_| |_|\___|_|   \__,_|\___|_|\_\\____/ \__,_|\__|
+                                                                                  
+                                                                                  */
 var container;
 var ball;
 var ballSpdX;
@@ -343,10 +343,10 @@ function CheckCollisions() {
 }
 
 function hit(i) {
-    container.removeChild(bricks[i].sprite);
-    bricks.splice(i, 1);
     score += bricks[i].score;
     document.getElementById("score").innerHTML = score;
+    container.removeChild(bricks[i].sprite);
+    bricks.splice(i, 1);
 }
 
 function updateLives() {
