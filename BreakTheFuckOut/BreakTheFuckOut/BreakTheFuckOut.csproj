@@ -69,9 +69,13 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+<<<<<<< HEAD
     <Content Include="www\resources\audiofiles\brick.wav" />
     <Content Include="www\resources\audiofiles\over.mp3" />
     <Content Include="www\resources\audiofiles\wall.wav" />
+=======
+    <Content Include="www\resources\audio\collision.wav" />
+>>>>>>> Change sound file
     <Content Include="www\resources\ball.png" />
     <Content Include="www\resources\eraser.png" />
     <Content Include="www\resources\pad.png" />
