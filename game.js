@@ -22,7 +22,7 @@ var level;
 var brickSnd = new Howl({ urls: ["resources/audiofiles/brick.wav"] });
 var wallSnd = new Howl({ urls: ["resources/audiofiles/wall.wav"] });
 var overSnd = new Howl({ urls: ["resources/audiofiles/over.mp3"] });
-=======
+
 var audioCollisionPad = new Audio("resources/audio/collision.wav");
 
 var sound = new Howl({
