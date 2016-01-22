@@ -1,0 +1,42 @@
+[1mdiff --cc BreakTheFuckOut/BreakTheFuckOut/BreakTheFuckOut.csproj[m
+[1mindex a9758b5,f802303..0000000[m
+[1m--- a/BreakTheFuckOut/BreakTheFuckOut/BreakTheFuckOut.csproj[m
+[1m+++ b/BreakTheFuckOut/BreakTheFuckOut/BreakTheFuckOut.csproj[m
+[36m@@@ -69,9 -69,7 +69,13 @@@[m
+      <Reference Include="System.Xml.Linq" />[m
+    </ItemGroup>[m
+    <ItemGroup>[m
+[32m++<<<<<<< HEAD[m
+[32m +    <Content Include="www\resources\audiofiles\brick.wav" />[m
+[32m +    <Content Include="www\resources\audiofiles\over.mp3" />[m
+[32m +    <Content Include="www\resources\audiofiles\wall.wav" />[m
+[32m++=======[m
+[32m+     <Content Include="www\resources\audio\collision.wav" />[m
+[32m++>>>>>>> Change sound file[m
+      <Content Include="www\resources\ball.png" />[m
+      <Content Include="www\resources\eraser.png" />[m
+      <Content Include="www\resources\pad.png" />[m
+[1mdiff --cc BreakTheFuckOut/BreakTheFuckOut/www/game.js[m
+[1mindex f4de7b1,39c31db..0000000[m
+[1m--- a/BreakTheFuckOut/BreakTheFuckOut/www/game.js[m
+[1m+++ b/BreakTheFuckOut/BreakTheFuckOut/www/game.js[m
+[36m@@@ -18,10 -18,11 +18,18 @@@[m [mvar score = 0[m
+  var divisorCollision = 5;[m
+  var lives = 3;[m
+  var level;[m
+[32m++<<<<<<< HEAD[m
+[32m +[m
+[32m +var brickSnd = new Howl({ urls: ["resources/audiofiles/brick.wav"] });[m
+[32m +var wallSnd = new Howl({ urls: ["resources/audiofiles/wall.wav"] });[m
+[32m +var overSnd = new Howl({ urls: ["resources/audiofiles/over.mp3"] });[m
+[32m++=======[m
+[32m+ var audioCollisionPad = new Audio("resources/audio/collision.wav");[m
+[32m+ [m
+[32m+ var sound = new Howl({[m
+[32m+     urls: ["resources/audio/collision.wav"][m
+[32m+ });[m
+[32m++>>>>>>> Change sound file[m
+  [m
+  var movePadDefault = 10;[m
+  var movePadIncreaser = 1.1;  // set the pixel increase every time the pad is moving. giving the pad acceleration while key that move pad is pressed[m
+* Unmerged path BreakTheFuckOut/BreakTheFuckOut/www/resources/audiofiles/collision-old.mp3
