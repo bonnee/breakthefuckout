@@ -388,6 +388,8 @@ function random(min, max) {
 }
 
 function scoreColor() {
+    $("#score").stop(true, true);
+  
     $("#score").animate({
         color: "red"
     }, 100);
