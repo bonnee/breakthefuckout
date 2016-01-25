@@ -351,8 +351,8 @@ function CheckCollisions() {
 
 function hit(i) {
     score += bricks[i].score;
-    document.getElementById("score").innerHTML = score;
-    scoreColor();
+    document.getElementById("score").innerHTML = score + "<span id=addPoints>+"+bricks[i].score+"</span>";
+    scoreColor(bricks[i].score);
     container.removeChild(bricks[i].sprite);
     bricks.splice(i, 1);
 }
@@ -383,8 +383,17 @@ function Reset() {
 function random(min, max) {
     return Math.random() * (max - min) + min;
 }
-function scoreColor() {
+function scoreColor(points) {
+    console.log("+" + points + " points");
+
     $("#score").stop(true, true);
+
+    $("#addPoints").animate({
+        color: "green"
+    }, 100);
+
+    $("#addPoints").fadeOut("slow");
+
   
     $("#score").animate({
         color: "red"
