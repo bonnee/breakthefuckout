@@ -23,9 +23,6 @@ var level;
 var brickSnd = new Howl({ urls: ["resources/audiofiles/brick.wav"] });
 var wallSnd = new Howl({ urls: ["resources/audiofiles/wall.wav"] });
 var overSnd = new Howl({ urls: ["resources/audiofiles/over.mp3"] });
-
-var audioCollisionPad = new Audio("resources/audio/collision.wav");
-
 var sound = new Howl({ urls: ["resources/audio/collision.wav"] });
 
 var movePadDefault = 10;
@@ -50,9 +47,7 @@ function init() {
     console.log("game.js loaded");
 
     renderer = PIXI.autoDetectRenderer(width, height);
-
     container = new PIXI.Container();
-
     document.getElementById("renderer").appendChild(renderer.view);
 
     level = new Level();
@@ -67,7 +62,6 @@ function init() {
 function LoadObjects() {
     level.load(1);
     var i, l;
-
     for (i = 0, l = bricks.length; i < l; i++) {
         var b = bricks[i];
         b.x = parseInt(b.x); b.y = parseInt(b.y); b.width = parseInt(b.width); b.height = parseInt(b.height); b.score = parseInt(b.score);
