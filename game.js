@@ -345,7 +345,7 @@ function CheckCollisions() {
 
 function hit(i) {
     score += bricks[i].score;
-    document.getElementById("score").innerHTML = score + "<span id=addPoints>&nbsp;+" + bricks[i].score + "</span>";
+    document.getElementById("score").innerHTML = score + "<span id=addPoints> +" + bricks[i].score + "</span>";
     scoreColor(bricks[i].score);
     container.removeChild(bricks[i].sprite);
     bricks.splice(i, 1);
