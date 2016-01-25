@@ -14,6 +14,7 @@ var ballSpdX;
 var ballSpdY;
 var pad;
 var running = false;
+var pause = false;
 var over = false;
 var score = 0;
 var divisorCollision = 5;
@@ -26,9 +27,7 @@ var overSnd = new Howl({ urls: ["resources/audiofiles/over.mp3"] });
 
 var audioCollisionPad = new Audio("resources/audio/collision.wav");
 
-var sound = new Howl({
-    urls: ["resources/audio/collision.wav"]
-});
+var sound = new Howl({ urls: ["resources/audio/collision.wav"] });
 
 var movePadDefault = 10;
 var movePadIncreaser = 1.1;  // set the pixel increase every time the pad is moving. giving the pad acceleration while key that move pad is pressed
@@ -149,9 +148,11 @@ enterKey.press = function () {
         Start();
         waitingForEnter = false;
     } else if (!over && !running) {
+        pause = false;
         Start();
     }
     else {
+        pause = true;
         Stop();
     }
 };
@@ -211,20 +212,22 @@ function Stop() {
 }
 
 function update() {
-    if (aPressed) {
-        if (pad.position.x - movePad > 0) {
-            pad.position.x -= movePad;
-            movePad += movePadIncreaser;
-        } else
-            pad.position.x = 0;
-    }
-    if (dPressed) {
-        if (pad.position.x + movePad < width - pad.width) {
-            pad.position.x += movePad;
-            movePad += movePadIncreaser;
+    if (!pause) {
+        if (aPressed) {
+            if (pad.position.x - movePad > 0) {
+                pad.position.x -= movePad;
+                movePad += movePadIncreaser;
+            } else
+                pad.position.x = 0;
         }
-        else
-            pad.position.x = width - pad.width;
+        if (dPressed) {
+            if (pad.position.x + movePad < width - pad.width) {
+                pad.position.x += movePad;
+                movePad += movePadIncreaser;
+            }
+            else
+                pad.position.x = width - pad.width;
+        }
     }
     if (running) {
 
@@ -233,12 +236,12 @@ function update() {
         ball.position.y += ballSpdY;
 
     }
-        renderer.render(container);
+    renderer.render(container);
 
-        if (over) {
-            requestAnimationFrame(end);
-        }
-    
+    if (over) {
+        requestAnimationFrame(end);
+    }
+
     if (!debugkey)
         requestAnimationFrame(update);
 }
@@ -246,7 +249,7 @@ function update() {
 function end() {
     running = false;
     if (bricks.length <= 0)
-        var endText = new PIXI.Text("You won but... The game is over man", { font: "50px Arial", fill: "white" });
+        var endText = new PIXI.Text("You won! Press N to restart the game", { font: "50px Arial", fill: "white" });
     else {
         overSnd.play();
         var endText = new PIXI.Text("Game Over :(", { font: "50px Arial", fill: "white" }); 
