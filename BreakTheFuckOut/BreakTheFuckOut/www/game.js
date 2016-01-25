@@ -46,7 +46,7 @@ var enterPressed = false;
 var waitingForEnter = false;
 
 var width = 919, height = 768;
-var logging = false;     //      Only for debug messages
+var logging = true;     //      Only for debug messages
 
 function init() {
     console.log("game.js loaded");
@@ -68,13 +68,10 @@ function init() {
 function LoadObjects() {
     level.load(1);
     var i, l;
+
     for (i = 0, l = bricks.length; i < l; i++) {
         var b = bricks[i];
-        b.x = parseInt(b.x);
-        b.y = parseInt(b.y);
-        b.width = parseInt(b.width);
-        b.height = parseInt(b.height);
-        b.score = parseInt(b.score);
+        b.x = parseInt(b.x); b.y = parseInt(b.y); b.width = parseInt(b.width); b.height = parseInt(b.height); b.score = parseInt(b.score);
         var wbTexture = PIXI.Texture.fromImage("resources/bricks/" + b.color);
         wb = new PIXI.Sprite(wbTexture);
         wb.position.x = b.x;
@@ -123,7 +120,7 @@ dKey.release = function () {
 mKey.press = function () {
     debugkey = !debugkey;
     console.log("debugKey: " + debugkey);
-    if(!debugkey)
+    if (!debugkey)
         requestAnimationFrame(update);
 }
 
@@ -248,11 +245,11 @@ function update() {
 
 function end() {
     running = false;
-    if (bricks.length <= 0)
+    if (bricks.length == 0)
         var endText = new PIXI.Text("You won! Press N to restart the game", { font: "50px Arial", fill: "white" });
     else {
         overSnd.play();
-        var endText = new PIXI.Text("Game Over :(", { font: "50px Arial", fill: "white" }); 
+        var endText = new PIXI.Text("Game Over :(", { font: "50px Arial", fill: "white" });
     }
     container.addChild(endText);
     endText.x = width / 2 - endText.width / 2;
@@ -262,17 +259,15 @@ function end() {
 
 function CheckCollisions() {
     var collisionX = false, collisionY = false, isBrick = true;
-    var blx = ball.position.x + ballSpdX;
-    var bly = ball.position.y + ballSpdY;
-    
+    var blx = ball.position.x + ballSpdX, bly = ball.position.y + ballSpdY;
+
     var hBounds = ball.position.x + ball.width > pad.position.x && ball.position.x < pad.position.x + pad.width;
     var vBounds = ball.position.y + ball.height > pad.position.y && ball.position.y < pad.position.y + pad.height;
 
 
     if (ballSpdY > 0 && hBounds && (ball.position.y + ball.height >= pad.position.y && ball.position.y < pad.position.y + pad.width / 2)) {
-
-        collisionY = true;
         ballSpdX = -((pad.position.x + (pad.width / 2)) - (ball.position.x + (ball.width / 2))) / divisorCollision;
+        collisionY = true;
         isBrick = false;
         if (logging)
             console.log("Collision with pad");
@@ -281,12 +276,10 @@ function CheckCollisions() {
 
     for (var i = 0; i < bricks.length; i++) {
         var b = bricks[i];
+        var boom = false;
 
         hBounds = ball.position.x + ball.width > b.x && ball.position.x < b.x + b.width;
         vBounds = ball.position.y + ball.height > b.y && ball.position.y < b.y + b.height;
-
-        var boom = false;
-
 
         if (hBounds && ((bly + ball.height >= b.y && bly < b.y + b.width / 2)                  // Top Collision
             || (bly + ball.height > b.y && bly <= b.y + b.height / 2))) {                      // Bottom Collision
@@ -294,7 +287,7 @@ function CheckCollisions() {
             boom = true;
             collisionY = true;
             if (logging)
-                console.log("vHit");
+                console.log("Vertical hit with block " + i);
         }
 
         if (vBounds && ((blx + ball.width >= b.x && blx < b.x + b.width / 2)                   // Left Collision
@@ -302,9 +295,8 @@ function CheckCollisions() {
             boom = true;
             collisionX = true;
             if (logging)
-                console.log("hHit");
+                console.log("Horizontal hit with block " + i);
         }
-
         if (boom)
             hit(i);
     }
@@ -399,10 +391,8 @@ function scoreColor() {
     $("#score").animate({
         color: "red"
     }, 100);
-    console.log("Score color switched to red");
 
     $("#score").animate({
         color: "white"
     }, 300);
-    console.log("Score color switched to black");
 }
