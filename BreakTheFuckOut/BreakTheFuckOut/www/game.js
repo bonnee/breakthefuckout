@@ -13,9 +13,8 @@ var ball;
 var ballSpdX;
 var ballSpdY;
 var pad;
-var running = false;
-var pause = false;
-var over = false;
+var runningState = { running: 0, paused: 1, lose: 2, over: 3, waiting: 4 }
+var state;
 var score = 0;
 var divisorCollision = 5;
 var lives = 3;
@@ -43,7 +42,6 @@ var enterKey = keyboard(13);
 var aPressed = false;
 var dPressed = false;
 var enterPressed = false;
-var waitingForEnter = false;
 
 var width = 919, height = 768;
 var logging = true;     //      Only for debug messages
@@ -58,6 +56,7 @@ function init() {
     document.getElementById("renderer").appendChild(renderer.view);
 
     level = new Level();
+    state = runningState.waiting;
 
     LoadObjects();
     updateLives();
@@ -140,16 +139,16 @@ nRefresh.press = function () {
 enterKey.press = function () {
     //key object pressed
     enterPressed = true;
-    if (!over && waitingForEnter) {
+    if (state == runningState.waiting || state == runningState.lose) {
         Reset();
+        state = runningState.running;
         Start();
-        waitingForEnter = false;
-    } else if (!over && !running) {
-        pause = false;
+    } else if (state == runningState.paused) {
+        state = runningState.running;
         Start();
     }
     else {
-        pause = true;
+        state = runningState.paused;
         Stop();
     }
 };
@@ -199,17 +198,17 @@ function keyboard(keyCode) {
 
 function Start() {
     document.getElementById("overlay").style.display = 'none';
-    running = true;
+    //state = runningState.running;
     document.getElementById("tips").innerHTML = "Game running. Press Enter to pause.";
 }
 
 function Stop() {
-    running = false;
+    //state = runningState.paused;
     document.getElementById("tips").innerHTML = "Game paused. Press Enter to resume.";
 }
 
 function update() {
-    if (!pause) {
+    if (state == runningState.lose || state == runningState.running) {
         if (aPressed) {
             if (pad.position.x - movePad > 0) {
                 pad.position.x -= movePad;
@@ -226,7 +225,7 @@ function update() {
                 pad.position.x = width - pad.width;
         }
     }
-    if (running) {
+    if (state == runningState.running) {
 
         CheckCollisions();
         ball.position.x += ballSpdX;
@@ -235,7 +234,7 @@ function update() {
     }
     renderer.render(container);
 
-    if (over) {
+    if (state == runningState.over) {
         requestAnimationFrame(end);
     }
 
@@ -244,7 +243,7 @@ function update() {
 }
 
 function end() {
-    running = false;
+    state = runningState.over;
     if (bricks.length == 0)
         var endText = new PIXI.Text("You won! Press N to restart the game", { font: "50px Arial", fill: "white" });
     else {
@@ -325,14 +324,12 @@ function CheckCollisions() {
     if (bly >= height) {
         lives--;
         Stop();
-
+        state = runningState.lose;
         updateLives();
-
-        waitingForEnter = true;
     }
 
     if (bricks.length == 0)
-        over = true;
+        state = runningState.over;
 
     if (collisionX || collisionY) {
         if (isBrick)
@@ -348,7 +345,7 @@ function CheckCollisions() {
         ballSpdY = -ballSpdY;
     }
     if (lives <= 0)
-        over = true;
+        state = runningState.over;
 
 }
 
@@ -386,7 +383,6 @@ function Reset() {
 function random(min, max) {
     return Math.random() * (max - min) + min;
 }
-
 function scoreColor() {
     $("#score").stop(true, true);
   
