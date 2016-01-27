@@ -220,15 +220,13 @@ function update() {
                 pad.position.x = width - pad.width;
         }
 		if (state == runningState.running) {
-
         CheckCollisions();
         ball.position.x += ballSpdX;
         ball.position.y += ballSpdY;
-
 		}
-	}
 		renderer.render(container);
-		
+	}
+	
 		if (!debugkey)
         requestAnimationFrame(update);
 	
