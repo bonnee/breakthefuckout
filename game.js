@@ -202,7 +202,8 @@ function Stop() {
 }
 
 function update() {
-    if (state == runningState.lose || state == runningState.running) {
+	if(state != runningState.over){
+    if (state == runningState.running || state == runningState.lose) {
         if (aPressed) {
             if (pad.position.x - movePad > 0) {
                 pad.position.x -= movePad;
@@ -218,22 +219,23 @@ function update() {
             else
                 pad.position.x = width - pad.width;
         }
-    }
-    if (state == runningState.running) {
+		if (state == runningState.running) {
 
         CheckCollisions();
         ball.position.x += ballSpdX;
         ball.position.y += ballSpdY;
 
-    }
-    renderer.render(container);
-
-    if (state == runningState.over) {
-        requestAnimationFrame(end);
-    }
-
-    if (!debugkey)
+		}
+	}
+		renderer.render(container);
+		
+		if (!debugkey)
         requestAnimationFrame(update);
+	
+	} else {
+		end();
+	}
+    
 }
 
 function end() {
