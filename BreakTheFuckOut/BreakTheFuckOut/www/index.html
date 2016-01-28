@@ -3,7 +3,7 @@
     <meta charset="utf-8" />
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="viewport" content="width=1009,user-scalable=no"/>
-    <title>BreakTheFuckOut - alpha</title>
+    <title>BreakTheFuckOut</title>
     <link rel="stylesheet" type="text/css" href="style.css" />
 
     
@@ -39,9 +39,12 @@
       </div>
 
     <div class="controls" unselectable="on" onselectstart="return false;" onmousedown="return false;">
-        <div class="controlsLeft" id="left">left</div>
-        <div class="controlsRight" id="right">right</div>
-        <div id="enter" class="playpause">&lt;/||</div>
+        <div class="box">
+		<div class="button float-left" id="left">left</div>
+        <div class="button float-right" id="right">right</div>
+		</div>
+        <div id="enter" class="button sbutton float-left">&lt;/||</div>
+		<div id="new" class="button sbutton float-right">New</div>
     </div>
 
     <div class="foot">
