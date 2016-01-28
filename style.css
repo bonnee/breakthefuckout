@@ -5,6 +5,7 @@
 }
 
 .controls {
+    font-size:2em;
     background-color: green;
     width: 100%;
     padding-top: 200px;
@@ -33,7 +34,7 @@
     padding:20px;
 }
 
-@media screen and (orientation: landscape) and (min-width: 1024px) {
+@media screen and (orientation: landscape) and (min-device-width: 1024px) {
     .controls{
         display: none;
     }
