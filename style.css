@@ -1,7 +1,19 @@
-﻿@font-face{
+﻿@font-face {
     font-family: GameOver;
     font-weight: bold;
     src: url('resources/game_over.otf');
+}
+
+.controls {
+    background-color: green;
+    width: 989px;
+    padding: 10px;
+}
+
+.controlsLeft{
+    background-color:red;
+    width:40%;
+    height:70px;
 }
 
 body {
@@ -9,9 +21,10 @@ body {
     padding: 0;
     background-color: #000;
     color: #fff;
-    font-family: GameOver ,bold;
+    font-family: GameOver,bold;
     font-size: 60px;
     line-height: 45px;
+    width:100%;
 }
 
 canvas {
@@ -24,6 +37,7 @@ canvas {
 h1 {
     margin: 0;
 }
+
 button {
     font-family: inherit;
     font-size: .85em;
@@ -32,18 +46,20 @@ button {
     padding-top: -10px;
     color: white;
 }
-button:hover {
-    background-color: white;
-    color: gray;
-}
+
+    button:hover {
+        background-color: white;
+        color: gray;
+    }
+
 a {
-   color: inherit;
-   text-decoration: none;
+    color: inherit;
+    text-decoration: none;
 }
 
-a:hover {
-   text-decoration: underline;
-}
+    a:hover {
+        text-decoration: underline;
+    }
 
 .main {
     width: 1009px;
@@ -51,6 +67,7 @@ a:hover {
     margin-left: auto;
     background-color: gray;
 }
+
 .game {
     margin-right: auto;
     margin-left: auto;
@@ -65,12 +82,12 @@ a:hover {
 }
 
 #overlay {
-    position:absolute;
-    top:45px;
+    position: absolute;
+    top: 45px;
     width: 919px;
     height: 768px;
     background-color: #000;
-    text-align:center;
+    text-align: center;
 }
 
 .overtext {
@@ -78,48 +95,52 @@ a:hover {
     margin: 0;
 }
 
-.overtop{
-    line-height:0.5em;
+.overtop {
+    line-height: 0.5em;
 }
 
 .life {
-    display:inline-block;
-    font-size:.5em;
+    display: inline-block;
+    font-size: .5em;
     line-height: .7em;
     margin: 10px 5px;
 }
 
 .right {
-    text-align:right;
-    float:right;
+    text-align: right;
+    float: right;
     width: 15%;
-}
-.right button {
-    margin-top: 3px;
 }
 
+    .right button {
+        margin-top: 3px;
+    }
+
 .left {
-    float:left;
+    float: left;
     width: 15%;
-text-align:left;
+    text-align: left;
 }
 
 .center {
     display: inline-block;
-    width:70%;
-    text-align:center;
+    width: 70%;
+    text-align: center;
 }
+
 .foot {
     font-size: .7em;
     position: absolute;
-    width:100%;
-    bottom:0;
+    width: 100%;
+    bottom: 0;
     background-color: rgba(128, 128, 128, 0.2);
     text-align: center;
 }
-.foot .right, .foot .left {
-    width:49% !important;
-}
-.foot p {
-    margin:0;
-}
+
+    .foot .right, .foot .left {
+        width: 49% !important;
+    }
+
+    .foot p {
+        margin: 0;
+    }
