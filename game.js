@@ -28,9 +28,7 @@ var movePadDefault = 10;
 var movePadIncreaser = 1.1;  // set the pixel increase every time the pad is moving. giving the pad acceleration while key that move pad is pressed
 var movePad = movePadDefault;
 
-var controlLeft;
-var controlRight;
-var controlEnter;
+var control;
 
 var aKey = keyboard(65);
 var dKey = keyboard(68);
@@ -55,30 +53,32 @@ function init() {
 
     level = new Level();
     state = runningState.waiting;
-    controlLeft = document.getElementById("left");
-    controlLeft.addEventListener('touchstart', function (e) {
+	
+    control = document.getElementById("left");
+    control.addEventListener('touchstart', function (e) {
         aPressed = true;
     });
-    controlLeft.addEventListener('touchend', function (e) {
+    control.addEventListener('touchend', function (e) {
         aPressed = false;
         movePad = movePadDefault;
     });
 
-    controlRight = document.getElementById("right");
-    controlRight.addEventListener('touchstart', function (e) {
+    control = document.getElementById("right");
+    control.addEventListener('touchstart', function (e) {
         dPressed = true;
     });
-    controlRight.addEventListener('touchend', function (e) {
+    control.addEventListener('touchend', function (e) {
         dPressed = false;
         movePad = movePadDefault;
     });
 
-    controlRight = document.getElementById("enter");
-    controlRight.addEventListener('touchstart', function (e) {
+    control = document.getElementById("enter");
+    control.addEventListener('touchstart', function (e) {
         enter();
     });
-    controlRight.addEventListener('touchend', function (e) {
-        enterPressed = false;
+	control = document.getElementById("new");
+    control.addEventListener('touchstart', function (e) {
+        location.reload();
     });
 
     LoadObjects();
