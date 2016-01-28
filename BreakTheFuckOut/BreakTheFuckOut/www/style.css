@@ -33,6 +33,12 @@
     padding:20px;
 }
 
+@media screen and (orientation: landscape) and (min-width: 1024px) {
+    .controls{
+        display: none;
+    }
+}
+
 body {
     margin: 0;
     padding: 0;
