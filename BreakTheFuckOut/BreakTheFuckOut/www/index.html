@@ -2,7 +2,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="mobile-web-app-capable" content="yes">
-    <meta name="viewport" content="width=1009">
+    <meta name="viewport" content="width=1009,user-scalable=no"/>
     <title>BreakTheFuckOut - alpha</title>
     <link rel="stylesheet" type="text/css" href="style.css" />
 
@@ -38,13 +38,17 @@
         </div>
       </div>
 
-    <div class="controls">
-        <div class="controlsLeft">
+    <div class="controls" unselectable="on"
+         onselectstart="return false;"
+         onmousedown="return false;">
+        <div class="controlsLeft" id="left">
             left
         </div>
-
-        <div class="controlsLeft">
+        <div class="controlsRight" id="right">
             right
+        </div>
+        <div id="enter" class="playpause">
+            play/pause
         </div>
     </div>
 

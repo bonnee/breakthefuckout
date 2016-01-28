@@ -23,11 +23,14 @@ var level;
 var brickSnd = new Howl({ urls: ["resources/audiofiles/brick.wav"] });
 var wallSnd = new Howl({ urls: ["resources/audiofiles/wall.wav"] });
 var overSnd = new Howl({ urls: ["resources/audiofiles/over.mp3"] });
-var sound = new Howl({ urls: ["resources/audio/collision.wav"] });
 
 var movePadDefault = 10;
 var movePadIncreaser = 1.1;  // set the pixel increase every time the pad is moving. giving the pad acceleration while key that move pad is pressed
 var movePad = movePadDefault;
+
+var controlLeft;
+var controlRight;
+var controlEnter;
 
 var aKey = keyboard(65);
 var dKey = keyboard(68);
@@ -52,11 +55,37 @@ function init() {
 
     level = new Level();
     state = runningState.waiting;
+    controlLeft = document.getElementById("left");
+    controlLeft.addEventListener('touchstart', function (e) {
+        aPressed = true;
+    });
+    controlLeft.addEventListener('touchend', function (e) {
+        aPressed = false;
+        movePad = movePadDefault;
+    });
+
+    controlRight = document.getElementById("right");
+    controlRight.addEventListener('touchstart', function (e) {
+        dPressed = true;
+    });
+    controlRight.addEventListener('touchend', function (e) {
+        dPressed = false;
+        movePad = movePadDefault;
+    });
+
+    controlRight = document.getElementById("enter");
+    controlRight.addEventListener('touchstart', function (e) {
+        enter();
+    });
+    controlRight.addEventListener('touchend', function (e) {
+        enterPressed = false;
+    });
 
     LoadObjects();
     updateLives();
     update();
 }
+
 
 
 function LoadObjects() {
@@ -131,6 +160,14 @@ nRefresh.press = function () {
 }
 
 enterKey.press = function () {
+    enter();
+};
+enterKey.release = function () {
+    //key object released
+    enterPressed = false;
+};
+
+function enter() {
     //key object pressed
     enterPressed = true;
     if (state == runningState.waiting || state == runningState.lose) {
@@ -145,11 +182,7 @@ enterKey.press = function () {
         state = runningState.paused;
         Stop();
     }
-};
-enterKey.release = function () {
-    //key object released
-    enterPressed = false;
-};
+}
 
 function keyboard(keyCode) {
     var key = {};
