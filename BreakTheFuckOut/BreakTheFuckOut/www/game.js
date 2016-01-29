@@ -94,26 +94,41 @@ function LoadObjects() {
     for (i = 0, l = bricks.length; i < l; i++) {
         var b = bricks[i];
         b.x = parseInt(b.x); b.y = parseInt(b.y); b.width = parseInt(b.width); b.height = parseInt(b.height); b.score = parseInt(b.score);
-        var wbTexture = PIXI.Texture.fromImage("resources/bricks/" + b.color);
-        wb = new PIXI.Sprite(wbTexture);
-        wb.position.x = b.x;
-        wb.position.y = b.y;
+        //var wbTexture = PIXI.Texture.fromImage("resources/bricks/" + b.color);
+        //wb = new PIXI.Sprite(wbTexture);
+        //wb.position.x = b.x;
+        //wb.position.y = b.y;
+        //container.addChild(wb);
+        var wb = new PIXI.Graphics();
+        wb.beginFill(b.color);
+        wb.drawRect(b.x, b.y, b.width, b.height);
         container.addChild(wb);
         b.sprite = wb;
     }
 
     //create pad
-    var padTexture = PIXI.Texture.fromImage("resources/pad.png");
-    pad = new PIXI.Sprite(padTexture);
-    container.addChild(pad);
-    pad.height = 23;
+    //var padTexture = PIXI.Texture.fromImage("resources/pad.png");
+    //pad = new PIXI.Sprite(padTexture);
+    //container.addChild(pad);
+    //pad.height = 23;
+    //pad.position.x = width / 2 - pad.width / 2;
+    var colorPad = "0xFF0000";
+    pad = new PIXI.Graphics();
+    pad.beginFill(colorPad);
+    pad.drawRect(0, 0, 45, 23);
     pad.position.x = width / 2 - pad.width / 2;
+    container.addChild(pad);
 
     //create ball
-    var ballTexture = PIXI.Texture.fromImage("resources/ball.png");
-    ball = new PIXI.Sprite(ballTexture);
+    //var ballTexture = PIXI.Texture.fromImage("resources/ball.png");
+    //ball = new PIXI.Sprite(ballTexture);
+    //container.addChild(ball);
+    //ball.height = 23;
+    var colorBall = "0xFF0000";
+    ball = new PIXI.Graphics();
+    ball.beginFill(colorBall);
+    ball.drawRect(0, 0, 23, 23);
     container.addChild(ball);
-    ball.height = 23;
 
     Reset();
 }
