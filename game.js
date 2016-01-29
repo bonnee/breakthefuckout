@@ -13,7 +13,7 @@ var ball;
 var ballSpdX;
 var ballSpdY;
 var pad;
-var runningState = { running: 0, paused: 1, lose: 2, over: 3, waiting: 4 }
+var runningState = { running: 0, paused: 1, lose: 2, over: 3, waiting: 4 };
 var state;
 var score = 0;
 var divisorCollision = 5;
