@@ -362,7 +362,7 @@ function CheckCollisions() {
 
         //if for slow motion when remains only one brick
         if (bricks.length == 1) {
-        distance = Math.sqrt((Math.pow(b.x - ball.position.x, 2) + (Math.pow(b.y - ball.position.y, 2))));
+        distance = Math.sqrt((Math.pow(b.x - ball.position.x, 2) + (Math.pow(b.y - ball.position.y, 2)))); //BALL.WIDTH/2 ecc...!!!!! 
         
         if (distance <= distanceSlowMo) {
             console.log("distance: " + distance + " tollerance: " + distanceSlowMo);
