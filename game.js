@@ -57,6 +57,13 @@ var enterPressed = false;
 var width = 919, height = 768;
 var logging = true;     //      Only for debug messages
 
+var distanceSlowMo = 50; //px
+var isSlowMotionStarted = false;
+var oldBallSpdX;
+var oldBallSpdY;
+var distance;
+var ballMultiplier = 10;
+
 function init() {
     console.log("game.js loaded");
 
@@ -105,7 +112,7 @@ function LoadObjects() {
     level.load(1);
     var i, l;
     for (i = 0, l = bricks.length; i < l; i++) {
-        var b = bricks[i];
+        var b = bricks[i]; 
         b.x = parseInt(b.x); b.y = parseInt(b.y); b.width = parseInt(b.width); b.height = parseInt(b.height); b.score = parseInt(b.score);
         //var wbTexture = PIXI.Texture.fromImage("resources/bricks/" + b.color);
         //wb = new PIXI.Sprite(wbTexture);
@@ -351,6 +358,35 @@ function CheckCollisions() {
             if (logging)
                 console.log("Horizontal hit with block " + i);
         }
+
+
+        //if for slow motion when remains only one brick
+        if (bricks.length == 1) {
+        distance = Math.sqrt((Math.pow(b.x - ball.position.x, 2) + (Math.pow(b.y - ball.position.y, 2))));
+        
+        if (distance <= distanceSlowMo) {
+            console.log("distance: " + distance + " tollerance: " + distanceSlowMo);
+            console.log("SLOW_MO_ON");
+
+            if (!isSlowMotionStarted) {
+                isSlowMotionStarted = true;
+                oldBallSpdX = ballSpdX;
+                oldBallSpdY = ballSpdY;
+                ballSpdX /= ballMultiplier;
+                ballSpdY /= ballMultiplier;
+            }
+            
+        }
+        if (distance > distanceSlowMo) {
+            if (isSlowMotionStarted) {
+                console.log("SLOW_MO_OFF");
+                ballSpdX *= ballMultiplier;
+                ballSpdY *= ballMultiplier;
+                isSlowMotionStarted = false;
+            }
+        }
+        }
+
         if (boom)
             hit(i);
     }
@@ -382,7 +418,7 @@ function CheckCollisions() {
         state = runningState.lose;
         updateLives();
     }
-
+    
     if (bricks.length == 0)
         state = runningState.over;
 
