@@ -7,6 +7,19 @@
  |____/|_|  \___|\__,_|_|\_\_|  |_| |_|\___|_|   \__,_|\___|_|\_\\____/ \__,_|\__|
                                                                                   
                                                                                   */
+                                                                                  
+                                                                              /*
+                                                                              window.setInterval(
+function(){
+pad.width = 100 * Math.random();
+var v = Math.random();
+if(v<0.5){v=0.5}
+ball.width = 60 * v;
+ball.height = ball.width;
+if(Math.random() > 0.8){ ballSpdY =- ballSpdY }
+if(Math.random() > 0.8){ ballSpdX =- ballSpdX }
+},2000)
+*/
 
 var container;
 var ball;
