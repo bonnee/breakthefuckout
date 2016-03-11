@@ -7,19 +7,6 @@
  |____/|_|  \___|\__,_|_|\_\_|  |_| |_|\___|_|   \__,_|\___|_|\_\\____/ \__,_|\__|
                                                                                   
                                                                                   */
-                                                                                  
-                                                                              /*
-                                                                              window.setInterval(
-function(){
-pad.width = 100 * Math.random();
-var v = Math.random();
-if(v<0.5){v=0.5}
-ball.width = 60 * v;
-ball.height = ball.width;
-if(Math.random() > 0.8){ ballSpdY =- ballSpdY }
-if(Math.random() > 0.8){ ballSpdX =- ballSpdX }
-},2000)
-*/
 
 var container;
 var ball;
@@ -73,7 +60,7 @@ function init() {
 
     level = new Level();
     state = runningState.waiting;
-	
+
     control = document.getElementById("left");
     control.addEventListener('touchstart', function (e) {
         aPressed = true;
@@ -96,7 +83,7 @@ function init() {
     control.addEventListener('touchstart', function (e) {
         enter();
     });
-	control = document.getElementById("new");
+    control = document.getElementById("new");
     control.addEventListener('touchstart', function (e) {
         location.reload();
     });
@@ -112,13 +99,8 @@ function LoadObjects() {
     level.load(1);
     var i, l;
     for (i = 0, l = bricks.length; i < l; i++) {
-        var b = bricks[i]; 
+        var b = bricks[i];
         b.x = parseInt(b.x); b.y = parseInt(b.y); b.width = parseInt(b.width); b.height = parseInt(b.height); b.score = parseInt(b.score);
-        //var wbTexture = PIXI.Texture.fromImage("resources/bricks/" + b.color);
-        //wb = new PIXI.Sprite(wbTexture);
-        //wb.position.x = b.x;
-        //wb.position.y = b.y;
-        //container.addChild(wb);
         var wb = new PIXI.Graphics();
         wb.beginFill(b.color);
         wb.drawRect(b.x, b.y, b.width, b.height);
@@ -126,12 +108,6 @@ function LoadObjects() {
         b.sprite = wb;
     }
 
-    //create pad
-    //var padTexture = PIXI.Texture.fromImage("resources/pad.png");
-    //pad = new PIXI.Sprite(padTexture);
-    //container.addChild(pad);
-    //pad.height = 23;
-    //pad.position.x = width / 2 - pad.width / 2;
     var colorPad = "0xFF0000";
     pad = new PIXI.Graphics();
     pad.beginFill(colorPad);
@@ -139,11 +115,6 @@ function LoadObjects() {
     pad.position.x = width / 2 - pad.width / 2;
     container.addChild(pad);
 
-    //create ball
-    //var ballTexture = PIXI.Texture.fromImage("resources/ball.png");
-    //ball = new PIXI.Sprite(ballTexture);
-    //container.addChild(ball);
-    //ball.height = 23;
     var colorBall = "0xFF0000";
     ball = new PIXI.Graphics();
     ball.beginFill(colorBall);
@@ -270,38 +241,38 @@ function Stop() {
 }
 
 function update() {
-	if(state != runningState.over){
-    if (state == runningState.running || state == runningState.lose) {
-        if (aPressed) {
-            if (pad.position.x - movePad > 0) {
-                pad.position.x -= movePad;
-                movePad += movePadIncreaser;
-            } else
-                pad.position.x = 0;
-        }
-        if (dPressed) {
-            if (pad.position.x + movePad < width - pad.width) {
-                pad.position.x += movePad;
-                movePad += movePadIncreaser;
+    if (state != runningState.over) {
+        if (state == runningState.running || state == runningState.lose) {
+            if (aPressed) {
+                if (pad.position.x - movePad > 0) {
+                    pad.position.x -= movePad;
+                    movePad += movePadIncreaser;
+                } else
+                    pad.position.x = 0;
             }
-            else
-                pad.position.x = width - pad.width;
+            if (dPressed) {
+                if (pad.position.x + movePad < width - pad.width) {
+                    pad.position.x += movePad;
+                    movePad += movePadIncreaser;
+                }
+                else
+                    pad.position.x = width - pad.width;
+            }
+            if (state == runningState.running) {
+                CheckCollisions();
+                ball.position.x += ballSpdX;
+                ball.position.y += ballSpdY;
+            }
+            renderer.render(container);
         }
-		if (state == runningState.running) {
-        CheckCollisions();
-        ball.position.x += ballSpdX;
-        ball.position.y += ballSpdY;
-		}
-		renderer.render(container);
-	}
-	
-		if (!debugkey)
-        requestAnimationFrame(update);
-	
-	} else {
-		end();
-	}
-    
+
+        if (!debugkey)
+            requestAnimationFrame(update);
+
+    } else {
+        end();
+    }
+
 }
 
 function end() {
@@ -362,29 +333,29 @@ function CheckCollisions() {
 
         //if for slow motion when remains only one brick
         if (bricks.length == 1) {
-        distance = Math.sqrt((Math.pow(b.x - ball.position.x, 2) + (Math.pow(b.y - ball.position.y, 2)))); //BALL.WIDTH/2 ecc...!!!!! 
-        
-        if (distance <= distanceSlowMo) {
-            console.log("distance: " + distance + " tollerance: " + distanceSlowMo);
-            console.log("SLOW_MO_ON");
+            distance = Math.sqrt((Math.pow(b.x - ball.position.x, 2) + (Math.pow(b.y - ball.position.y, 2)))); //BALL.WIDTH/2 ecc...!!!!! 
 
-            if (!isSlowMotionStarted) {
-                isSlowMotionStarted = true;
-                oldBallSpdX = ballSpdX;
-                oldBallSpdY = ballSpdY;
-                ballSpdX /= ballMultiplier;
-                ballSpdY /= ballMultiplier;
+            if (distance <= distanceSlowMo) {
+                console.log("distance: " + distance + " tollerance: " + distanceSlowMo);
+                console.log("SLOW_MO_ON");
+
+                if (!isSlowMotionStarted) {
+                    isSlowMotionStarted = true;
+                    oldBallSpdX = ballSpdX;
+                    oldBallSpdY = ballSpdY;
+                    ballSpdX /= ballMultiplier;
+                    ballSpdY /= ballMultiplier;
+                }
+
             }
-            
-        }
-        if (distance > distanceSlowMo) {
-            if (isSlowMotionStarted) {
-                console.log("SLOW_MO_OFF");
-                ballSpdX *= ballMultiplier;
-                ballSpdY *= ballMultiplier;
-                isSlowMotionStarted = false;
+            if (distance > distanceSlowMo) {
+                if (isSlowMotionStarted) {
+                    console.log("SLOW_MO_OFF");
+                    ballSpdX *= ballMultiplier;
+                    ballSpdY *= ballMultiplier;
+                    isSlowMotionStarted = false;
+                }
             }
-        }
         }
 
         if (boom)
@@ -418,7 +389,7 @@ function CheckCollisions() {
         state = runningState.lose;
         updateLives();
     }
-    
+
     if (bricks.length == 0)
         state = runningState.over;
 
@@ -485,7 +456,7 @@ function scoreColor(points) {
 
     $("#addPoints").fadeOut("slow");
 
-  
+
     $("#score").animate({
         color: "red"
     }, 100);
