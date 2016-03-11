@@ -44,7 +44,7 @@ var enterPressed = false;
 var width = 919, height = 768;
 var logging = true;     //      Only for debug messages
 
-var distanceSlowMo = 50; //px
+var distanceSlowMo = 100; //px
 var isSlowMotionStarted = false;
 var oldBallSpdX;
 var oldBallSpdY;
@@ -333,7 +333,7 @@ function CheckCollisions() {
 
         //if for slow motion when remains only one brick
         if (bricks.length == 1) {
-            distance = Math.sqrt((Math.pow(b.x - ball.position.x, 2) + (Math.pow(b.y - ball.position.y, 2)))); //BALL.WIDTH/2 ecc...!!!!! 
+            distance = Math.sqrt((Math.pow((b.x+(b.width/2)) - (ball.position.x+(ball.width/2)), 2) + (Math.pow((b.y+(b.height/2)) - (ball.position.y+(ball.height/2)), 2)))); //BALL.WIDTH/2 ecc...!!!!! 
 
             if (distance <= distanceSlowMo) {
                 console.log("distance: " + distance + " tollerance: " + distanceSlowMo);
