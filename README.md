@@ -6,4 +6,4 @@
  * [Howler.js](https://github.com/goldfire/howler.js)
 
 <br />
->Play it [here](http://superbonny.github.io/breakthefuckout/)
+>Play it [here](http://superbonny.github.io/breakthefuckout/), (run on mobile... what did you expect? :smirk:)
