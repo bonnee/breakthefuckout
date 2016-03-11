@@ -1,7 +1,7 @@
 # BreakTheFuckOut
 **The Atari classic Breakout written in JavaScript and WebGL through pixi.js library**
 <br />
-* library used:
+* libraries used:
  * [Pixi.js](https://github.com/pixijs/pixi.js)
  * [Howler.js](https://github.com/goldfire/howler.js)
 
